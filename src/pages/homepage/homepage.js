@@ -16,13 +16,15 @@ const HomePage = () => {
 
   return (
     <div>
-      <div className="message">
-        {welcomeMessage}
-      </div>
+
       <div className="page">
         <h1 className="title">
           Homepage
         </h1>
+        <div className="message">
+          {welcomeMessage}
+        </div>
+
         <SignOutButton />
       </div>
     </div>
