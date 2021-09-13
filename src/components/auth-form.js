@@ -6,6 +6,8 @@ import getFirebase from '../firebase';
 import './auth-form.css';
 
 const Form = ({ type }) => {
+  const username = useInput('')
+  const fullName = useInput('')
   const email = useInput('');
   const password = useInput('');
   const firebaseInstance = getFirebase();
@@ -14,9 +16,30 @@ const Form = ({ type }) => {
 
   const formDetails = {
     signUp: {
-      handler: () => firebaseInstance
-        .auth()
-        .createUserWithEmailAndPassword(email.value, password.value),
+      handler: async () => {
+        try {
+          const createdUserResult = await firebaseInstance
+            .auth()
+            .createUserWithEmailAndPassword(email.value, password.value)
+
+          await createdUserResult.user.updateProfile({
+            displayName: username.value
+          })
+
+          await firebaseInstance.firestore().collection('users').add({
+            userId: createdUserResult.user.uid,
+            username: username.value.toLowerCase(),
+            fullName: fullName.value,
+            emailAddress: email.value.toLowerCase(),
+            dateCreated: Date.now()
+          })
+        } catch (error) {
+          username('')
+          fullName('')
+          email('')
+          password('')
+        }
+      },
       buttonName: 'Sign Up',
     },
     signIn: {
@@ -45,6 +68,8 @@ const Form = ({ type }) => {
         onSubmit={(e) => onSubmitHandler(e)}
         className="form"
       >
+        {type === "signUp" && <input placeholder="userName" {...username} className="primaryInput" />}
+        {type === "signUp" && <input placeholder="Full Name" {...fullName} className="primaryInput" />}
         <input placeholder="Email" {...email} className="primaryInput" />
         <input placeholder="Password" type="password" {...password} className="primaryInput" />
         {errorMessage && <div className="errorMessage">{errorMessage}</div>}

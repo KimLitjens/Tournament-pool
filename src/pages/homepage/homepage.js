@@ -10,8 +10,8 @@ const HomePage = () => {
     setAuth(userInfo)
   }, [userInfo]);
 
-  const welcomeMessage = auth?.currentUser?.email
-    ? `Welcome ${auth?.currentUser?.email}`
+  const welcomeMessage = auth?.currentUser?.displayName
+    ? `Welcome ${auth?.currentUser?.displayName}`
     : 'Welcome';
 
   return (

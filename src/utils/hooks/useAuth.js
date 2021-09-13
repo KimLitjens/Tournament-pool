@@ -17,7 +17,7 @@ const useProvideAuth = () => {
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((authUser) => {
       if (authUser) {
-        setCurrentUser({ email: authUser.email })
+        setCurrentUser(authUser)
       } else {
         setCurrentUser({})
       }
