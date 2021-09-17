@@ -9,9 +9,9 @@ const HomePage = () => {
 
   const apiKey = process.env.REACT_APP_SPORTDATAAPI_API_KEY
 
-  const { response, error, loading } = useAxios({
-    url: `https://app.sportdataapi.com/api/v1/soccer/matches?apikey=${apiKey}&season_id=1959&date_from=2021-09-11`,
-  });
+  // const { response, error, loading } = useAxios({
+  //   url: `https://app.sportdataapi.com/api/v1/soccer/matches?apikey=${apiKey}&season_id=1959&date_from=2021-09-11`,
+  // });
 
   useEffect(() => {
     setAuth(userInfo)
@@ -24,25 +24,41 @@ const HomePage = () => {
   console.log(userInfo)
   return (
     <div>
-      <div className="page">
-        <h1 className="title">
-          Homepage
-        </h1>
-        <div className="message">
-          {welcomeMessage}
+      <div className="pag w-full">
+        <nav className="nav flex justify-center">
+          <div>
+            <h1 className="title text-center">
+              Homepage
+          </h1>
+            <div className="message">
+              {welcomeMessage}
+            </div>
+          </div>
+
+        </nav>
+        <div className="mainPart flex flex-row justify-between w-full">
+          <div className="sideBarLeft hidden w-1/4 md:inline">
+            <h2>Sidebar Left</h2>
+          </div>
+          <div className="middle flex justify-center">
+            <h2 className="">Middle Part</h2>
+            {/* <div className="app">
+            {loading ? (
+              <div>Loading...</div>
+            ) : (
+                <div>
+                  {error && error.message}
+                  {response.data && response?.data?.map((item) => <div>{item.match_id}</div>)}
+                </div>
+              )}
+          </div> */}
+          </div>
+          <div className="sideBarRight hidden w-1/4 md:inline">
+            <h2 className="text-right">Sidebar Right</h2>
+          </div>
         </div>
-        <div className="app">
-          {loading ? (
-            <div>Loading...</div>
-          ) : (
-              <div>
-                {error && error.message}
-                {response.data && response?.data?.map((item) => <div>{item.match_id}</div>)}
-              </div>
-            )}
-        </div>
-        <SignOutButton />
       </div>
+      <SignOutButton />
     </div>
   );
 };
