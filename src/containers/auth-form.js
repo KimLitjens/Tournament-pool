@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import useInput from '../utils/hooks/useInput';
 import getFirebase from '../firebase';
-import './auth-form.css';
+import { AuthForm } from '../components'
 
-const Form = ({ type }) => {
+export default function Form({ type }) {
   const username = useInput('')
   const fullName = useInput('')
   const email = useInput('');
@@ -63,8 +63,8 @@ const Form = ({ type }) => {
   };
 
   return (
-    <div>
-      <form
+    <AuthForm>
+      <AuthForm.Form
         onSubmit={(e) => onSubmitHandler(e)}
         className="form"
       >
@@ -76,8 +76,8 @@ const Form = ({ type }) => {
         <button type="submit" className="primaryButton submit">
           {formDetails[type].buttonName}
         </button>
-      </form>
-    </div>
+      </AuthForm.Form>
+    </AuthForm>
   )
 };
 
@@ -85,4 +85,4 @@ Form.propTypes = {
   type: PropTypes.string.isRequired,
 };
 
-export default Form;
+

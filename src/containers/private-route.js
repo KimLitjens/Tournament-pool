@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { useAuth } from '../utils/hooks/useAuth';
 
-const PrivateRoute = ({ children, ...rest }) => {
+export default function PrivateRoute({ children, ...rest }) {
   const userInfo = useAuth();
   const [auth, setAuth] = useState({});
 
@@ -21,8 +21,8 @@ const PrivateRoute = ({ children, ...rest }) => {
       render={() => (auth.currentUser && Object.keys(auth.currentUser).length ? (
         children
       ) : (
-        <Redirect to="/sign-in" />
-      ))}
+          <Redirect to="/sign-in" />
+        ))}
     />
   )
 };
@@ -31,4 +31,4 @@ PrivateRoute.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default PrivateRoute;
+

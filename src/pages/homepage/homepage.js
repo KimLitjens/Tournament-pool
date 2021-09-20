@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import SignOutButton from '../../components/sign-out-button';
+import SignOutButton from '../../containers/sign-out-button';
+import SidebarLeftContainer from '../../containers/sidebarLeft'
+import SidebarRightContainer from '../../containers/sidebarRight'
 import { useAuth } from '../../utils/hooks/useAuth';
 import useAxios from '../../utils/hooks/useAxios'
 
@@ -37,9 +39,7 @@ const HomePage = () => {
 
         </nav>
         <div className="mainPart flex flex-row justify-between w-full">
-          <div className="sideBarLeft hidden w-1/4 md:inline">
-            <h2>Sidebar Left</h2>
-          </div>
+          <SidebarLeftContainer />
           <div className="middle flex justify-center">
             <h2 className="">Middle Part</h2>
             {/* <div className="app">
@@ -53,9 +53,7 @@ const HomePage = () => {
               )}
           </div> */}
           </div>
-          <div className="sideBarRight hidden w-1/4 md:inline">
-            <h2 className="text-right">Sidebar Right</h2>
-          </div>
+          <SidebarRightContainer />
         </div>
       </div>
       <SignOutButton />

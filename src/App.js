@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import SignUp from './pages/sign-up/sign-up';
 import SignIn from './pages/sign-in/sign-in';
 import HomePage from './pages/homepage/homepage';
-import PrivateRoute from './components/private-route';
+import PrivateRoute from './containers/private-route';
 import { ProvideAuth } from './utils/hooks/useAuth';
 
 function App() {
