@@ -11,9 +11,9 @@ const HomePage = () => {
 
   const apiKey = process.env.REACT_APP_SPORTDATAAPI_API_KEY
 
-  // const { response, error, loading } = useAxios({
-  //   url: `https://app.sportdataapi.com/api/v1/soccer/matches?apikey=${apiKey}&season_id=1959&date_from=2021-09-11`,
-  // });
+  const { response, error, loading } = useAxios({
+    url: `https://app.sportdataapi.com/api/v1/soccer/matches?apikey=${apiKey}&season_id=1959&date_from=2021-09-11`,
+  });
 
   useEffect(() => {
     setAuth(userInfo)
@@ -23,7 +23,6 @@ const HomePage = () => {
     ? `Welcome ${auth?.currentUser?.displayName}`
     : 'Welcome';
 
-  console.log(userInfo)
   return (
     <div>
       <div className="pag w-full">
@@ -39,7 +38,7 @@ const HomePage = () => {
 
         </nav>
         <div className="mainPart flex flex-row justify-between w-full">
-          <SidebarLeftContainer />
+          {!loading ? <SidebarLeftContainer response={response} /> : null}
           <div className="middle flex justify-center">
             <h2 className="">Middle Part</h2>
             {/* <div className="app">
