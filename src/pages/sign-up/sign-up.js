@@ -1,18 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Form from '../../containers/auth-form';
+import { AuthForm } from '../../components'
+
 
 const SignUp = () => (
-  <div className="page">
-    <h1 className="title">Sign Up</h1>
+  <AuthForm.Page className="page">
+    <AuthForm.Title className="title">Sign Up</AuthForm.Title>
     <Form type="signUp" />
-    <Link
+    <AuthForm.Formlink
       to="/sign-in"
       className="primaryLink"
     >
       Back to Sign In
-    </Link>
-  </div>
+    </AuthForm.Formlink>
+  </AuthForm.Page>
 );
 
 export default SignUp;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router';
-import { Link } from 'react-router-dom';
 import Form from '../../containers/auth-form';
 import { useAuth } from '../../utils/hooks/useAuth';
+import { AuthForm } from '../../components'
 
 const SignIn = () => {
   const userInfo = useAuth();
@@ -17,14 +17,15 @@ const SignIn = () => {
   }
 
   return (
-    <div className="page">
-      <h1 className="title">Sign In</h1>
+    <AuthForm.Page className="page">
+      <AuthForm.Title className="title">Sign In</AuthForm.Title>
       <Form type="signIn" />
-      <Link to="/sign-up" className="primaryLink">
+      <AuthForm.Formlink to="/sign-up" className="primaryLink">
         Don't have an account? Sign up here
-      </Link>
-    </div>
+      </AuthForm.Formlink>
+    </AuthForm.Page>
   );
 };
 
 export default SignIn
+

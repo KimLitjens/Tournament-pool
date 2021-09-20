@@ -68,14 +68,14 @@ export default function Form({ type }) {
         onSubmit={(e) => onSubmitHandler(e)}
         className="form"
       >
-        {type === "signUp" && <input placeholder="userName" {...username} className="primaryInput" />}
-        {type === "signUp" && <input placeholder="Full Name" {...fullName} className="primaryInput" />}
-        <input placeholder="Email" {...email} className="primaryInput" />
-        <input placeholder="Password" type="password" {...password} className="primaryInput" />
-        {errorMessage && <div className="errorMessage">{errorMessage}</div>}
-        <button type="submit" className="primaryButton submit">
+        {type === "signUp" && <AuthForm.Input placeholder="userName" {...username} className="primaryInput" />}
+        {type === "signUp" && <AuthForm.Input placeholder="Full Name" {...fullName} className="primaryInput" />}
+        <AuthForm.Input placeholder="Email" {...email} className="primaryInput" />
+        <AuthForm.Input placeholder="Password" type="password" {...password} className="primaryInput" />
+        {errorMessage && <AuthForm.ErrorMessage className="errorMessage">{errorMessage}</AuthForm.ErrorMessage>}
+        <AuthForm.Submit type="submit">
           {formDetails[type].buttonName}
-        </button>
+        </AuthForm.Submit>
       </AuthForm.Form>
     </AuthForm>
   )
