@@ -5,5 +5,5 @@ export default function SidebarRight({ children, ...restProps }) {
 }
 
 SidebarRight.Title = function Title({ children, ...restProps }) {
-    return <h2 {...restProps} className="text-right">{children}</h2>
+    return <h2 {...restProps} className="text-center">{children}</h2>
 }

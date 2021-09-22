@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import SignOutButton from '../../containers/sign-out-button';
 import SidebarLeftContainer from '../../containers/sidebarLeft'
 import SidebarRightContainer from '../../containers/sidebarRight'
+import HeaderContainer from '../../containers/header'
 import { useAuth } from '../../utils/hooks/useAuth';
 import useAxios from '../../utils/hooks/useAxios'
 
@@ -26,17 +26,7 @@ const HomePage = () => {
   return (
     <div>
       <div className="pag w-full">
-        <nav className="nav flex justify-center">
-          <div>
-            <h1 className="title text-center">
-              Homepage
-          </h1>
-            <div className="message">
-              {welcomeMessage}
-            </div>
-          </div>
-
-        </nav>
+        <HeaderContainer welcomeMessage={welcomeMessage} />
         <div className="mainPart flex flex-row justify-between w-full">
           {!loading ? <SidebarLeftContainer response={response} /> : null}
           <div className="middle flex justify-center">
@@ -52,10 +42,9 @@ const HomePage = () => {
               )}
           </div> */}
           </div>
-          <SidebarRightContainer />
+          {!loading ? <SidebarRightContainer response={response} /> : null}
         </div>
       </div>
-      <SignOutButton />
     </div>
   );
 };
