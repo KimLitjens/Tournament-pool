@@ -23,3 +23,4 @@ SidebarRight.Logo = function Logo({ children, ...restProps }) {
 SidebarRight.ShortName = function ShortName({ children, ...restProps }) {
     return <p {...restProps} className="mx-2 self-center">{children}</p>
 }
+

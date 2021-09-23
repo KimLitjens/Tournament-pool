@@ -26,9 +26,9 @@ const HomePage = () => {
   return (
     <div>
       <div className="pag w-full">
-        <HeaderContainer welcomeMessage={welcomeMessage} />
+        <HeaderContainer welcomeMessage={welcomeMessage} error={error} loading={loading} />
         <div className="mainPart flex flex-row justify-between w-full">
-          {!loading ? <SidebarLeftContainer response={response} /> : null}
+          <SidebarLeftContainer response={response} />
           <div className="middle flex justify-center">
             <h2 className="">Middle Part</h2>
             {/* <div className="app">
@@ -42,7 +42,7 @@ const HomePage = () => {
               )}
           </div> */}
           </div>
-          {!loading ? <SidebarRightContainer response={response} /> : null}
+          <SidebarRightContainer response={response} error={error} loading={loading} />
         </div>
       </div>
     </div>

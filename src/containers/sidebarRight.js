@@ -7,7 +7,7 @@ export default function SidebarLeftContainer({ response, error }) {
 
     function getNextSixteenGames() {
         const playedGames = response.data.filter(game => game.status === 'notstarted')
-        const nextSixTeenGames = playedGames.slice(0, 15)
+        const nextSixTeenGames = playedGames.slice(0, 16)
         setNextSixTeenGames(nextSixTeenGames)
         console.log(nextSixTeenGames[0])
     }

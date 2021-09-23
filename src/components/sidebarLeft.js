@@ -7,3 +7,23 @@ export default function SidebarLeft({ children, ...restProps }) {
 SidebarLeft.Title = function Title({ children, ...restProps }) {
     return <h2 {...restProps} className="text-center">{children}</h2>
 }
+
+SidebarLeft.Games = function Games({ children, ...restProps }) {
+    return <div {...restProps} className="flex flex-col">{children}</div>
+}
+
+SidebarLeft.Game = function Game({ children, ...restProps }) {
+    return <div {...restProps} className="flex justify-center mt-1">{children}</div>
+}
+
+SidebarLeft.Logo = function Logo({ children, ...restProps }) {
+    return <img {...restProps} className="w-8 h-8" />
+}
+
+SidebarLeft.ShortName = function ShortName({ children, ...restProps }) {
+    return <p {...restProps} className="mx-2 self-center">{children}</p>
+}
+
+SidebarLeft.Score = function Score({ children, ...restProps }) {
+    return <p {...restProps} className="ml-2 self-center">{children}</p>
+}
