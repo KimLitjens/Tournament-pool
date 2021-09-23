@@ -2,25 +2,35 @@ import React, { useEffect, useState } from 'react'
 import { SidebarRight } from '../components'
 
 
-export default function SidebarLeftContainer({ response }) {
+export default function SidebarLeftContainer({ response, error }) {
     const [nextSixTeenGames, setNextSixTeenGames] = useState()
 
-
-    useEffect(() => {
+    function getNextSixteenGames() {
         const playedGames = response.data.filter(game => game.status === 'notstarted')
         const nextSixTeenGames = playedGames.slice(0, 15)
         setNextSixTeenGames(nextSixTeenGames)
         console.log(nextSixTeenGames[0])
+    }
+
+    useEffect(() => {
+        response && getNextSixteenGames()
     }, [response])
 
     return (
         <SidebarRight>
             <SidebarRight.Title>Next Games</SidebarRight.Title>
-            {nextSixTeenGames ? <div className="content-center">
-                {nextSixTeenGames.map(game => <div className="flex m-4 ">
-                    <img src={game.home_team.logo} alt="Home Team Logo" width="25" height="25"></img> - <img src={game.away_team
-                        .logo} alt="Home Team Logo" width="25" height="25"></img> {game.stats.ft_score} </div>)}
-            </div> : null}
+            {!nextSixTeenGames ? (
+                <div>Loading...</div>
+            ) : (<SidebarRight.Games >
+                {error && error.message}
+                {nextSixTeenGames.map(game => <SidebarRight.Game className="flex justify-center">
+                    <SidebarRight.Logo src={game.home_team.logo} alt="Home Team Logo" />
+                    <SidebarRight.ShortName>{game.home_team.short_code}</SidebarRight.ShortName>
+                    <p > - </p>
+                    <SidebarRight.ShortName>{game.away_team.short_code}</SidebarRight.ShortName>
+                    <SidebarRight.Logo src={game.away_team.logo} alt="Away Team Logo" />
+                </SidebarRight.Game>)}
+            </SidebarRight.Games>)}
         </SidebarRight>
     )
 }
