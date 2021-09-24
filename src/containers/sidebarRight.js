@@ -23,7 +23,7 @@ export default function SidebarLeftContainer({ response, error }) {
                 <div>Loading...</div>
             ) : (<SidebarRight.Games >
                 {error && error.message}
-                {nextSixTeenGames.map(game => <SidebarRight.Game className="flex justify-center">
+                {nextSixTeenGames.map(game => <SidebarRight.Game key={game.match_id}>
                     <SidebarRight.Logo src={game.home_team.logo} alt="Home Team Logo" />
                     <SidebarRight.ShortName>{game.home_team.short_code}</SidebarRight.ShortName>
                     <p > - </p>

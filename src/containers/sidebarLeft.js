@@ -23,7 +23,7 @@ export default function SidebarLeftContainer({ response, error }) {
             ) : (
                     <SidebarLeft.Games>
                         {error && error.message}
-                        {lastSixTeenGames.map(game => <SidebarLeft.Game className="flex justify-center">
+                        {lastSixTeenGames.map(game => <SidebarLeft.Game key={game.match_id}>
                             <SidebarLeft.Logo src={game.home_team.logo} alt="Home Team Logo" />
                             <SidebarLeft.ShortName>{game.home_team.short_code}</SidebarLeft.ShortName>
                             <SidebarLeft.Score>{game.stats.ft_score}</SidebarLeft.Score>
