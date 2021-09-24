@@ -1,19 +1,19 @@
 import React from 'react';
-import getFirebase from '../firebase';
+import { getAuth, signOut } from "firebase/auth";
+
 
 const SignOutButton = () => {
-  const firebaseInstance = getFirebase();
-  const signOut = async () => {
-    try {
-      if (firebaseInstance) {
-        await firebaseInstance.auth().signOut()
-      }
-    } catch (error) {
-      console.log('error', error)
-    }
+  const auth = getAuth();
+
+  const signUserOut = async () => {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+    }).catch((error) => {
+      // An error happened.
+    });
   };
   return (
-    <button onClick={signOut} type="submit" className="primaryButton">
+    <button onClick={signUserOut} type="submit" className="primaryButton">
       Sign Out
     </button>
   );

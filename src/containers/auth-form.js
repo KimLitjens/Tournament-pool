@@ -2,50 +2,57 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import useInput from '../utils/hooks/useInput';
-import getFirebase from '../firebase';
+import { firebaseApp, db } from '../firebase';
+import { collection, addDoc } from "firebase/firestore"
 import { AuthForm } from '../components'
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 
 export default function Form({ type }) {
   const username = useInput('')
   const fullName = useInput('')
   const email = useInput('');
   const password = useInput('');
-  const firebaseInstance = getFirebase();
   const [errorMessage, setErrorMessage] = useState('');
   const history = useHistory();
+  const auth = getAuth()
 
   const formDetails = {
     signUp: {
       handler: async () => {
-        try {
-          const createdUserResult = await firebaseInstance
-            .auth()
-            .createUserWithEmailAndPassword(email.value, password.value)
+        await createUserWithEmailAndPassword(auth, email.value, password.value)
+          .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            console.log(user)
+            updateProfile(user, {
+              displayName: username.value
+            })
 
-          await createdUserResult.user.updateProfile({
-            displayName: username.value
+            addDoc(collection(db, 'users'), {
+              userId: user.uid,
+              username: username.value.toLowerCase(),
+              fullName: fullName.value,
+              emailAddress: email.value.toLowerCase(),
+              dateCreated: Date.now()
+            })
           })
-
-          await firebaseInstance.firestore().collection('users').add({
-            userId: createdUserResult.user.uid,
-            username: username.value.toLowerCase(),
-            fullName: fullName.value,
-            emailAddress: email.value.toLowerCase(),
-            dateCreated: Date.now()
-          })
-        } catch (error) {
-          username('')
-          fullName('')
-          email('')
-          password('')
-        }
+          .catch((error) => {
+            console.log(error)
+            username('')
+            fullName('')
+            email('')
+            password('')
+          });
       },
       buttonName: 'Sign Up',
     },
     signIn: {
-      handler: () => firebaseInstance
-        .auth()
-        .signInWithEmailAndPassword(email.value, password.value),
+      handler: () => signInWithEmailAndPassword(auth, email.value, password.value)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          console.log(`${user} is signed in`)
+        }),
       buttonName: 'Sign In',
     },
   };
@@ -53,7 +60,7 @@ export default function Form({ type }) {
   const onSubmitHandler = async (e) => {
     e.preventDefault()
     try {
-      if (firebaseInstance) {
+      if (firebaseApp) {
         await formDetails[type].handler();
         history.push('/');
       }

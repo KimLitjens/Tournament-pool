@@ -2,11 +2,11 @@ import React, {
   useState, useEffect, useContext, createContext,
 } from 'react';
 import PropTypes from 'prop-types';
-import getFirebase from '../../firebase';
-
-const firebase = getFirebase();
+import { firebaseApp, db } from '../../firebase';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const authContext = createContext();
+const auth = getAuth(firebaseApp);
 
 /* A hook to rerender child component if auth status changes */
 export const useAuth = () => useContext(authContext);
@@ -15,7 +15,7 @@ const useProvideAuth = () => {
   const [currentUser, setCurrentUser] = useState()
 
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged((authUser) => {
+    const unsubscribe = onAuthStateChanged(auth, authUser => {
       if (authUser) {
         setCurrentUser(authUser)
       } else {
