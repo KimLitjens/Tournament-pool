@@ -31,16 +31,6 @@ const HomePage = () => {
           <SidebarLeftContainer response={response} />
           <div className="middle flex justify-center">
             <h2 className="">Middle Part</h2>
-            {/* <div className="app">
-            {loading ? (
-              <div>Loading...</div>
-            ) : (
-                <div>
-                  {error && error.message}
-                  {response.data && response?.data?.map((item) => <div>{item.match_id}</div>)}
-                </div>
-              )}
-          </div> */}
           </div>
           <SidebarRightContainer response={response} error={error} loading={loading} />
         </div>

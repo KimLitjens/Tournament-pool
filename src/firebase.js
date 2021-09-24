@@ -14,15 +14,3 @@ const firebaseApp = initializeApp({
 const db = getFirestore(firebaseApp)
 
 export { firebaseApp, db }
-
-// // Initialize Firebase
-// let instance;
-
-// export default function getFirebase() {
-//   if (typeof window !== 'undefined') {
-//     if (instance) return instance
-//     instance = firebase.initializeApp(firebaseConfig)
-//     return instance
-//   }
-//   return null;
-// }

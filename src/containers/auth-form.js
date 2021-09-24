@@ -23,7 +23,6 @@ export default function Form({ type }) {
           .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            console.log(user)
             updateProfile(user, {
               displayName: username.value
             })
@@ -37,7 +36,6 @@ export default function Form({ type }) {
             })
           })
           .catch((error) => {
-            console.log(error)
             username('')
             fullName('')
             email('')

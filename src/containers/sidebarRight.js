@@ -9,7 +9,6 @@ export default function SidebarLeftContainer({ response, error }) {
         const playedGames = response.data.filter(game => game.status === 'notstarted')
         const nextSixTeenGames = playedGames.slice(0, 16)
         setNextSixTeenGames(nextSixTeenGames)
-        console.log(nextSixTeenGames[0])
     }
 
     useEffect(() => {

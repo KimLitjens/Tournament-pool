@@ -9,7 +9,6 @@ export default function SidebarLeftContainer({ response, error }) {
         const playedGames = response.data.filter(game => game.status === 'finished')
         const lastSixTeenGames = playedGames.slice(-16)
         setlastSixTeenGames(lastSixTeenGames)
-        console.log(lastSixTeenGames[0])
     }
     useEffect(() => {
         response && getLastSixTeenGames()

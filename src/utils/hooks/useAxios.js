@@ -8,16 +8,21 @@ const useAxios = (params) => {
 
     const fetchData = async () => {
         setLoading(true);
+
         try {
-            console.log(params)
             const res = await axios.request(params);
+
             setResponse(res.data);
             setError(null);
+
         } catch (err) {
             setError(err);
+
         } finally {
             setLoading(false);
+
         }
+
     };
 
     useEffect(() => {

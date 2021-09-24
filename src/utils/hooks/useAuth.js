@@ -2,7 +2,7 @@ import React, {
   useState, useEffect, useContext, createContext,
 } from 'react';
 import PropTypes from 'prop-types';
-import { firebaseApp, db } from '../../firebase';
+import { firebaseApp } from '../../firebase';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const authContext = createContext();
