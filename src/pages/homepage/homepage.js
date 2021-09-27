@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import SidebarLeftContainer from '../../containers/sidebarLeft'
 import SidebarRightContainer from '../../containers/sidebarRight'
 import HeaderContainer from '../../containers/header'
+import FooterContainer from '../../containers/footer'
 import { useAuth } from '../../utils/hooks/useAuth';
 import useAxios from '../../utils/hooks/useAxios'
 
 const HomePage = () => {
   const userInfo = useAuth();
   const [auth, setAuth] = useState({});
+  const [teams, setTeams] = useState({})
 
   const apiKey = process.env.REACT_APP_SPORTDATAAPI_API_KEY
 
@@ -29,12 +31,13 @@ const HomePage = () => {
         <HeaderContainer welcomeMessage={welcomeMessage} error={error} loading={loading} />
         <div className="mainPart flex flex-row justify-between w-full">
           <SidebarLeftContainer response={response} />
-          <div className="middle flex justify-center">
-            <h2 className="">Middle Part</h2>
+          <div className="middle  justify-center">
+            <h2 className="text-center">Middle Part</h2>
           </div>
           <SidebarRightContainer response={response} error={error} loading={loading} />
         </div>
       </div>
+      <FooterContainer />
     </div>
   );
 };
