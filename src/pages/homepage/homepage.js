@@ -3,8 +3,10 @@ import SidebarLeftContainer from '../../containers/sidebarLeft'
 import SidebarRightContainer from '../../containers/sidebarRight'
 import HeaderContainer from '../../containers/header'
 import FooterContainer from '../../containers/footer'
+import TopScorersContainer from '../../containers/topScorers'
 import { useAuth } from '../../utils/hooks/useAuth';
 import useAxios from '../../utils/hooks/useAxios'
+import { object } from 'prop-types';
 
 const HomePage = () => {
   const userInfo = useAuth();
@@ -20,6 +22,12 @@ const HomePage = () => {
   useEffect(() => {
     setAuth(userInfo)
   }, [userInfo]);
+
+  useEffect(() => {
+    const clubs = []
+    response && response.data.slice(0, 16).map(match => clubs.push(match.home_team, match.away_team))
+    setTeams(clubs)
+  }, [response])
 
   const welcomeMessage = auth?.currentUser?.displayName
     ? `Welcome ${auth?.currentUser?.displayName}`
