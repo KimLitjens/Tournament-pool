@@ -40,7 +40,8 @@ const HomePage = () => {
         <div className="mainPart flex flex-row justify-between w-full">
           <SidebarLeftContainer response={response} />
           <div className="middle  justify-center">
-            <h2 className="text-center">Middle Part</h2>
+            <h2 className="text-center">TopScorers</h2>
+            <TopScorersContainer />
           </div>
           <SidebarRightContainer response={response} error={error} loading={loading} />
         </div>
