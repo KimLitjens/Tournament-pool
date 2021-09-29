@@ -14,7 +14,10 @@ export default function TopScorersContainer() {
             {loading ? <p>...Loading</p> :
                 <TopScorers.List>
                     {error && error.message}
-                    {response.data.slice(0, 10).map(topScorer => <TopScorers.TopScorer key={topScorer.player.player_id}>{`${topScorer.pos}: ${topScorer.player.player_name} - ${topScorer.goals.overall}`}</TopScorers.TopScorer>)}
+                    {response.data.slice(0, 10).map(topScorer =>
+                        <TopScorers.TopScorer key={topScorer.player.player_id}>
+                            {`${topScorer.pos}: ${topScorer.player.player_name} - ${topScorer.goals.overall}`}
+                        </TopScorers.TopScorer>)}
                 </TopScorers.List>
             }
         </TopScorers>
