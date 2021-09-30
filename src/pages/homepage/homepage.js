@@ -4,6 +4,7 @@ import SidebarRightContainer from '../../containers/sidebarRight'
 import HeaderContainer from '../../containers/header'
 import FooterContainer from '../../containers/footer'
 import TopScorersContainer from '../../containers/topScorers'
+import ScoreForm from '../../containers/scoreForm'
 import { useAuth } from '../../utils/hooks/useAuth';
 import useAxios from '../../utils/hooks/useAxios'
 import { object } from 'prop-types';
@@ -40,8 +41,7 @@ const HomePage = () => {
         <div className="mainPart flex flex-row justify-between w-full">
           <SidebarLeftContainer response={response} />
           <div className="middle  justify-center">
-            <h2 className="text-center">TopScorers</h2>
-            <TopScorersContainer />
+            <ScoreForm response={response} error={error} loading={loading} />
           </div>
           <SidebarRightContainer response={response} error={error} loading={loading} />
         </div>
