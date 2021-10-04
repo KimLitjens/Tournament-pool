@@ -17,14 +17,26 @@ ScoreForm.Form = function Form({ children, ...restProps }) {
 }
 
 ScoreForm.Games = function Games({ children, ...restProps }) {
-    <div {...restProps} className="w-full flex justify-center">{children}</div>
+    return <div {...restProps} className="w-full flex justify-center">{children}</div>
 }
 
 ScoreForm.Label = function Label({ children, ...restProps }) {
-    <label {...restProps} className="flex">{children}</label>
+    return <label {...restProps} className="flex">{children}</label>
 }
 
+ScoreForm.Logo = function Logo({ children, ...restProps }) {
+    return <img {...restProps} className="w-8 h-8" />
+}
 
+ScoreForm.ShortName = function ShortName({ children, ...restProps }) {
+    return <p {...restProps} className="w-10 mx-2 self-center text-center">{children}</p>
+}
 
+ScoreForm.Input = function Input({ children, ...restProps }) {
+    return <input {...restProps} className="shadow appearance-none border rounded w-10 mx-2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{children}</input>
+}
 
+ScoreForm.Button = function Button({ children, ...restProps }) {
+    return <button {...restProps} className="relative self-center w-2/3 py-2 px-0 text-white font-bold text-sm cursor-pointer rounded-full bg-gradient-to-r from-blue-800 to-blue-500 border-transparent m-10">{children}</button>
+}
 
