@@ -20,9 +20,10 @@ export default function ScoreFormContainer({ response, error }) {
         response && getNextSixteenGames()
     }, [response])
 
-    const onSubmitHandler = (e) => {
-        setPredictionsMade(false)
+    const onSubmitHandler = async (e) => {
         e.preventDefault()
+        await setPredictionsMade(false)
+        console.log("submitted")
         setPredictionsMade(true)
     };
 
@@ -47,7 +48,7 @@ export default function ScoreFormContainer({ response, error }) {
                     <ScoreForm.Form
                         onSubmit={(e) => onSubmitHandler(e)}
                         className="form">
-                        {nextSixTeenGames.map(game => <ScoreForm.Games key={game.match_id}>
+                        {nextSixTeenGames.map(game => game.stats.home_prediction && game.stats.away_prediction ? null : (<ScoreForm.Games key={game.match_id}>
                             <ScoreForm.Label htmlFor={game.home_team.name} >
                                 {<ScoreForm.Logo src={game.home_team.logo} alt={game.home_team.name} />}
                                 <ScoreForm.ShortName >{game.home_team.short_code}</ScoreForm.ShortName>
@@ -61,13 +62,13 @@ export default function ScoreFormContainer({ response, error }) {
                                 <ScoreForm.ShortName >{game.away_team.short_code}</ScoreForm.ShortName>
                                 {<ScoreForm.Logo src={game.away_team.logo} alt={game.away_team.name} />}
                             </ScoreForm.Label>
-                        </ScoreForm.Games>)}
+                        </ScoreForm.Games>))}
 
                         <ScoreForm.Button type="submit">Submit</ScoreForm.Button>
                     </ScoreForm.Form>)}
             <section>
                 <h2 className="text-center">Predictions</h2>
-                {predictionsMade && nextSixTeenGames.map(game => <ScoreForm.Games key={game.match_id}>
+                {predictionsMade && nextSixTeenGames.map(game => game.stats.home_prediction && game.stats.away_prediction ? (<ScoreForm.Games key={game.match_id}>
                     <div className="flex">
                         {<ScoreForm.Logo src={game.home_team.logo} alt={game.home_team.name} />}
                         <ScoreForm.ShortName >{game.home_team.short_code}</ScoreForm.ShortName>
@@ -79,7 +80,7 @@ export default function ScoreFormContainer({ response, error }) {
                         <ScoreForm.ShortName >{game.away_team.short_code}</ScoreForm.ShortName>
                         {<ScoreForm.Logo src={game.away_team.logo} alt={game.away_team.name} />}
                     </div>
-                </ScoreForm.Games>)}
+                </ScoreForm.Games>) : (null))}
             </section>
 
         </ScoreForm>
