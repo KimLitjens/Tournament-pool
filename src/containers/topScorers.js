@@ -1,6 +1,8 @@
 import React from 'react'
 import useAxios from '../utils/hooks/useAxios'
 import { TopScorers } from '../components'
+import { Link } from "react-router-dom";
+import * as ROUTES from '../constants/routes'
 
 export default function TopScorersContainer() {
     const apiKey = process.env.REACT_APP_SPORTDATAAPI_API_KEY
@@ -16,7 +18,11 @@ export default function TopScorersContainer() {
                     {error && error.message}
                     {response.data.slice(0, 10).map(topScorer =>
                         <TopScorers.TopScorer key={topScorer.player.player_id}>
-                            {`${topScorer.pos}: ${topScorer.player.player_name} - ${topScorer.goals.overall}`}
+                            {`${topScorer.pos}:`}
+                            <Link to={`/players/${topScorer.player.player_name}/${topScorer.player.player_id}`}>
+                                {topScorer.player.player_name}
+                            </Link>
+                            {` - ${topScorer.goals.overall}`}
                         </TopScorers.TopScorer>)}
                 </TopScorers.List>
             }

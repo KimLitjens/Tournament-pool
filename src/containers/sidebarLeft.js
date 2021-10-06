@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { SidebarLeft } from '../components'
+import TopScorersContainer from './topScorers'
 
 
 export default function SidebarLeftContainer({ response, error }) {
@@ -30,6 +31,7 @@ export default function SidebarLeftContainer({ response, error }) {
                             <SidebarLeft.Logo src={game.away_team.logo} alt="Away Team Logo" />
                         </SidebarLeft.Game>)}
                     </SidebarLeft.Games>)}
+            <TopScorersContainer />
         </SidebarLeft>
     )
 }
