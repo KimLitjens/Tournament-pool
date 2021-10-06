@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ScoreForm } from '../components'
-
+import { Link } from "react-router-dom";
 
 export default function ScoreFormContainer({ response, error }) {
     const [nextSixTeenGames, setNextSixTeenGames] = useState()
@@ -49,37 +49,40 @@ export default function ScoreFormContainer({ response, error }) {
                         onSubmit={(e) => onSubmitHandler(e)}
                         className="form">
                         {nextSixTeenGames.map(game => game.stats.home_prediction && game.stats.away_prediction ? null : (<ScoreForm.Games key={game.match_id}>
-                            <ScoreForm.Label htmlFor={game.home_team.name} >
-                                {<ScoreForm.Logo src={game.home_team.logo} alt={game.home_team.name} />}
-                                <ScoreForm.ShortName >{game.home_team.short_code}</ScoreForm.ShortName>
-                            </ScoreForm.Label>
+                            <Link to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`} className="flex">
+                                <ScoreForm.Label htmlFor={game.home_team.name} >
+                                    {<ScoreForm.Logo src={game.home_team.logo} alt={game.home_team.name} />}
+                                    <ScoreForm.ShortName >{game.home_team.short_code}</ScoreForm.ShortName>
+                                </ScoreForm.Label>
+                            </Link>
                             <ScoreForm.Input type="text" id={"home_prediction"} name={game.match_id} onChange={onChange}
                             />
                             <p>-</p>
                             <ScoreForm.Input type="text" id={"away_prediction"} name={game.match_id} onChange={onChange}
                             />
-                            <ScoreForm.Label htmlFor={game.away_team.name} >
-                                <ScoreForm.ShortName >{game.away_team.short_code}</ScoreForm.ShortName>
-                                {<ScoreForm.Logo src={game.away_team.logo} alt={game.away_team.name} />}
-                            </ScoreForm.Label>
+                            <Link to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`} className="flex">
+                                <ScoreForm.Label htmlFor={game.away_team.name} >
+                                    <ScoreForm.ShortName >{game.away_team.short_code}</ScoreForm.ShortName>
+                                    {<ScoreForm.Logo src={game.away_team.logo} alt={game.away_team.name} />}
+                                </ScoreForm.Label>
+                            </Link>
                         </ScoreForm.Games>))}
-
                         <ScoreForm.Button type="submit">Submit</ScoreForm.Button>
                     </ScoreForm.Form>)}
             <section>
                 <h2 className="text-center">Predictions</h2>
                 {predictionsMade && nextSixTeenGames.map(game => game.stats.home_prediction && game.stats.away_prediction ? (<ScoreForm.Games key={game.match_id}>
-                    <div className="flex">
+                    <Link to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`} className="flex">
                         {<ScoreForm.Logo src={game.home_team.logo} alt={game.home_team.name} />}
                         <ScoreForm.ShortName >{game.home_team.short_code}</ScoreForm.ShortName>
-                    </div>
+                    </Link>
                     <p>{game.stats.home_prediction}</p>
                     <p>-</p>
                     <p>{game.stats.away_prediction}</p>
-                    <div className="flex">
+                    <Link to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`} className="flex">
                         <ScoreForm.ShortName >{game.away_team.short_code}</ScoreForm.ShortName>
                         {<ScoreForm.Logo src={game.away_team.logo} alt={game.away_team.name} />}
-                    </div>
+                    </Link>
                 </ScoreForm.Games>) : (null))}
             </section>
 

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import SignUp from './pages/sign-up/sign-up';
 import SignIn from './pages/sign-in/sign-in';
 import Players from './pages/players/players';
+import Clubs from './pages/clubs/clubs';
 import HomePage from './pages/homepage/homepage';
 import * as ROUTES from './constants/routes'
 import PrivateRoute from './containers/private-route';
@@ -21,6 +22,9 @@ function App() {
           </Route>
           <Route path={ROUTES.PLAYERS} >
             <Players />
+          </Route>
+          <Route path={ROUTES.CLUBS} >
+            <Clubs />
           </Route>
           <PrivateRoute exact path={ROUTES.HOMEPAGE}>
             <HomePage />
