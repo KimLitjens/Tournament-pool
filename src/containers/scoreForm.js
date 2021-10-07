@@ -60,7 +60,7 @@ export default function ScoreFormContainer({ response, error }) {
                             <p>-</p>
                             <ScoreForm.Input type="text" id={"away_prediction"} name={game.match_id} onChange={onChange}
                             />
-                            <Link to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`} className="flex">
+                            <Link to={`/clubs/${game.away_team.name}/${game.away_team.team_id}`} className="flex">
                                 <ScoreForm.Label htmlFor={game.away_team.name} >
                                     <ScoreForm.ShortName >{game.away_team.short_code}</ScoreForm.ShortName>
                                     {<ScoreForm.Logo src={game.away_team.logo} alt={game.away_team.name} />}
@@ -76,9 +76,9 @@ export default function ScoreFormContainer({ response, error }) {
                         {<ScoreForm.Logo src={game.home_team.logo} alt={game.home_team.name} />}
                         <ScoreForm.ShortName >{game.home_team.short_code}</ScoreForm.ShortName>
                     </Link>
-                    <p>{game.stats.home_prediction}</p>
-                    <p>-</p>
-                    <p>{game.stats.away_prediction}</p>
+                    <p className="self-center">{game.stats.home_prediction}</p>
+                    <p className="self-center">-</p>
+                    <p className="self-center">{game.stats.away_prediction}</p>
                     <Link to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`} className="flex">
                         <ScoreForm.ShortName >{game.away_team.short_code}</ScoreForm.ShortName>
                         {<ScoreForm.Logo src={game.away_team.logo} alt={game.away_team.name} />}
