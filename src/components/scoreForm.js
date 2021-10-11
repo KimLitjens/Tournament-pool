@@ -25,7 +25,7 @@ ScoreForm.Label = function Label({ children, ...restProps }) {
 }
 
 ScoreForm.Logo = function Logo({ children, ...restProps }) {
-    return <img {...restProps} className="w-8 h-8" />
+    return <img {...restProps} className="w-8 h-8 " />
 }
 
 ScoreForm.ShortName = function ShortName({ children, ...restProps }) {
@@ -37,6 +37,6 @@ ScoreForm.Input = function Input({ children, ...restProps }) {
 }
 
 ScoreForm.Button = function Button({ children, ...restProps }) {
-    return <button {...restProps} className="relative self-center w-2/3 py-2 px-0 text-white font-bold text-sm cursor-pointer rounded-full bg-gradient-to-r from-blue-800 to-blue-500 border-transparent m-10">{children}</button>
+    return <button {...restProps} className="flex justify-center  py-2 px-0 text-white font-bold text-sm cursor-pointer rounded-full bg-gradient-to-r from-blue-800 to-blue-500 border-transparent my-10 mx-auto w-1/4 md:w-1/2">{children}</button>
 }
 

@@ -7,8 +7,6 @@ export default function ScoreFormContainer({ response, error }) {
     const [matchPredictions, setMatchPredictions] = useState([])
     const [predictionsMade, setPredictionsMade] = useState(false)
 
-    // console.log(watch("example"))
-
     function getNextSixteenGames() {
         const playedGames = response.data.filter(game => game.status === 'notstarted')
         const nextSixTeenGames = playedGames.slice(0, 16)
@@ -29,13 +27,10 @@ export default function ScoreFormContainer({ response, error }) {
 
     const onChange = (e) => {
         const matchIndex = nextSixTeenGames.findIndex(game => game.match_id == e.target.name)
-        console.log(nextSixTeenGames[matchIndex].stats)
         const teamPrediction = e.target.id
         const valuePrediction = e.target.value
         const prediction = { [teamPrediction]: valuePrediction }
         Object.assign(nextSixTeenGames[matchIndex].stats, prediction)
-        console.log(nextSixTeenGames[matchIndex].stats)
-        console.log(nextSixTeenGames)
     }
 
 
