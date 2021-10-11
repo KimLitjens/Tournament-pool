@@ -43,7 +43,7 @@ const HomePage = () => {
           <div className="middle  justify-center">
             <ScoreForm response={response} error={error} loading={loading} />
           </div>
-          <SidebarRightContainer response={response} error={error} loading={loading} />
+          <TopScorersContainer />
         </div>
       </div>
       <FooterContainer />

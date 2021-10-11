@@ -17,7 +17,7 @@ ScoreForm.Form = function Form({ children, ...restProps }) {
 }
 
 ScoreForm.Games = function Games({ children, ...restProps }) {
-    return <div {...restProps} className="w-full flex justify-center">{children}</div>
+    return <div {...restProps} className="w-full flex justify-center mt-1">{children}</div>
 }
 
 ScoreForm.Label = function Label({ children, ...restProps }) {
@@ -33,7 +33,7 @@ ScoreForm.ShortName = function ShortName({ children, ...restProps }) {
 }
 
 ScoreForm.Input = function Input({ children, ...restProps }) {
-    return <input {...restProps} className="shadow appearance-none border rounded w-10 mx-2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{children}</input>
+    return <input {...restProps} className="shadow appearance-none border rounded w-10 mx-2 py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{children}</input>
 }
 
 ScoreForm.Button = function Button({ children, ...restProps }) {

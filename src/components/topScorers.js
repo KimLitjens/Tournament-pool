@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function TopScorers({ children, ...restProps }) {
-    return <div {...restProps} className="">{children}</div>
+    return <div {...restProps} className="hidden md:inline w-1/4">{children}</div>
 }
 
 TopScorers.List = function List({ children, ...restProps }) {

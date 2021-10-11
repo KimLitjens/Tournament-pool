@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { SidebarLeft } from '../components'
-import TopScorersContainer from './topScorers'
 import { Link } from "react-router-dom";
 
 
@@ -37,7 +36,6 @@ export default function SidebarLeftContainer({ response, error }) {
                         </SidebarLeft.Game>)}
                     </SidebarLeft.Games>)
             }
-            <TopScorersContainer />
         </SidebarLeft >
     )
 }
