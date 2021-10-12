@@ -13,6 +13,14 @@ export default function ScoreFormContainer({ response, error }) {
         console.log(nextSixTeenGames)
     }
 
+    function arePredictionsMade() {
+        if (nextSixTeenGames.some(obj => obj.stats.away_prediction && obj.stats.home_prediction)) {
+            return true
+        } else {
+            return false
+        }
+    }
+
     useEffect(() => {
         response && getNextSixteenGames()
     }, [response])
@@ -20,16 +28,16 @@ export default function ScoreFormContainer({ response, error }) {
     const onSubmitHandler = async (e) => {
         e.preventDefault()
         await setPredictionsMade(false)
-        console.log("submitted")
-        setPredictionsMade(true)
+        setPredictionsMade(arePredictionsMade())
     };
+
 
     const deletePrediction = async (matchId) => {
         await setPredictionsMade(false)
         const matchIndex = nextSixTeenGames.findIndex(game => game.match_id == matchId)
         delete nextSixTeenGames[matchIndex].stats.away_prediction
         delete nextSixTeenGames[matchIndex].stats.home_prediction
-        setPredictionsMade(true)
+        setPredictionsMade(arePredictionsMade())
     }
 
     const onChange = (e) => {
@@ -40,7 +48,6 @@ export default function ScoreFormContainer({ response, error }) {
 
         Object.assign(nextSixTeenGames[matchIndex].stats, prediction)
     }
-
 
     return (
         <ScoreForm>
