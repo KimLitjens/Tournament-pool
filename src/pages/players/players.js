@@ -11,8 +11,6 @@ export default function Players() {
         url: `https://app.sportdataapi.com/api/v1/soccer/players/${id}?apikey=${apiKey}`,
     });
 
-    console.log('The player id is:', id);
-
     return (
         <div>
             <h1 className="text-center">{player}</h1>

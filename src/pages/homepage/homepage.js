@@ -38,9 +38,9 @@ const HomePage = () => {
     <div>
       <div className="pag w-full">
         <HeaderContainer welcomeMessage={welcomeMessage} error={error} loading={loading} />
-        <div className="mainPart flex flex-row justify-between w-full">
+        <div className="mainPart md:flex flex-row justify-between w-full">
           <SidebarLeftContainer response={response} />
-          <div className="middle  justify-center">
+          <div className="middle justify-center">
             <ScoreForm response={response} error={error} loading={loading} />
           </div>
           <TopScorersContainer />

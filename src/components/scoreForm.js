@@ -25,7 +25,7 @@ ScoreForm.Label = function Label({ children, ...restProps }) {
 }
 
 ScoreForm.Logo = function Logo({ children, ...restProps }) {
-    return <img {...restProps} className="w-8 h-8 " />
+    return <img {...restProps} className="w-8 h-8" />
 }
 
 ScoreForm.ShortName = function ShortName({ children, ...restProps }) {
