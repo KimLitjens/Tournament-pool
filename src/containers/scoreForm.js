@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 export default function ScoreFormContainer({ response, error }) {
     const [nextSixTeenGames, setNextSixTeenGames] = useState()
-    const [matchPredictions, setMatchPredictions] = useState([])
     const [predictionsMade, setPredictionsMade] = useState(false)
 
     function getNextSixteenGames() {
@@ -30,6 +29,7 @@ export default function ScoreFormContainer({ response, error }) {
         const teamPrediction = e.target.id
         const valuePrediction = e.target.value
         const prediction = { [teamPrediction]: valuePrediction }
+
         Object.assign(nextSixTeenGames[matchIndex].stats, prediction)
     }
 
@@ -43,44 +43,91 @@ export default function ScoreFormContainer({ response, error }) {
                     <ScoreForm.Form
                         onSubmit={(e) => onSubmitHandler(e)}
                         className="form">
-                        {nextSixTeenGames.map(game => game.stats.home_prediction && game.stats.away_prediction ? null : (<ScoreForm.Games key={game.match_id}>
-                            <Link to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`} className="flex">
-                                <ScoreForm.Label htmlFor={game.home_team.name} >
-                                    {<ScoreForm.Logo src={game.home_team.logo} alt={game.home_team.name} />}
-                                    <ScoreForm.ShortName >{game.home_team.short_code}</ScoreForm.ShortName>
-                                </ScoreForm.Label>
-                            </Link>
-                            <ScoreForm.Input type="text" id={"home_prediction"} name={game.match_id} onChange={onChange}
-                            />
-                            <p>-</p>
-                            <ScoreForm.Input type="text" id={"away_prediction"} name={game.match_id} onChange={onChange}
-                            />
-                            <Link to={`/clubs/${game.away_team.name}/${game.away_team.team_id}`} className="flex">
-                                <ScoreForm.Label htmlFor={game.away_team.name} >
-                                    <ScoreForm.ShortName >{game.away_team.short_code}</ScoreForm.ShortName>
-                                    {<ScoreForm.Logo src={game.away_team.logo} alt={game.away_team.name} />}
-                                </ScoreForm.Label>
-                            </Link>
-                        </ScoreForm.Games>))}
+                        {nextSixTeenGames.map(game =>
+                            game.stats.home_prediction && game.stats.away_prediction ? null
+                                : (<ScoreForm.Games key={game.match_id}>
+                                    <Link
+                                        to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
+                                        className="flex"
+                                    >
+                                        <ScoreForm.Label htmlFor={game.home_team.name} >
+                                            {<ScoreForm.Logo
+                                                src={game.home_team.logo}
+                                                alt={game.home_team.name}
+                                            />}
+                                            <ScoreForm.ShortName >
+                                                {game.home_team.short_code}
+                                            </ScoreForm.ShortName>
+                                        </ScoreForm.Label>
+                                    </Link>
+                                    <ScoreForm.Input
+                                        type="number"
+                                        id={"home_prediction"}
+                                        name={game.match_id}
+                                        onChange={onChange}
+                                        min="0"
+                                        max="99"
+                                    />
+                                    <p>-</p>
+                                    <ScoreForm.Input
+                                        type="number"
+                                        id={"away_prediction"}
+                                        name={game.match_id}
+                                        onChange={onChange}
+                                        min="0"
+                                        max="99"
+                                    />
+                                    <Link
+                                        to={`/clubs/${game.away_team.name}/${game.away_team.team_id}`}
+                                        className="flex"
+                                    >
+                                        <ScoreForm.Label htmlFor={game.away_team.name}>
+                                            <ScoreForm.ShortName >
+                                                {game.away_team.short_code}
+                                            </ScoreForm.ShortName>
+                                            {<ScoreForm.Logo
+                                                src={game.away_team.logo}
+                                                alt={game.away_team.name}
+                                            />}
+                                        </ScoreForm.Label>
+                                    </Link>
+                                </ScoreForm.Games>))}
                         <ScoreForm.Button type="submit">Submit</ScoreForm.Button>
                     </ScoreForm.Form>)}
             <section>
-                <h2 className="text-center">Predictions</h2>
-                {predictionsMade && nextSixTeenGames.map(game => game.stats.home_prediction && game.stats.away_prediction ? (<ScoreForm.Games key={game.match_id}>
-                    <Link to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`} className="flex">
-                        {<ScoreForm.Logo src={game.home_team.logo} alt={game.home_team.name} />}
-                        <ScoreForm.ShortName >{game.home_team.short_code}</ScoreForm.ShortName>
-                    </Link>
-                    <p className="self-center">{game.stats.home_prediction}</p>
-                    <p className="self-center">-</p>
-                    <p className="self-center">{game.stats.away_prediction}</p>
-                    <Link to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`} className="flex">
-                        <ScoreForm.ShortName >{game.away_team.short_code}</ScoreForm.ShortName>
-                        {<ScoreForm.Logo src={game.away_team.logo} alt={game.away_team.name} />}
-                    </Link>
-                </ScoreForm.Games>) : (null))}
+                {predictionsMade && <h2 className="text-center">Predictions</h2>}
+                {predictionsMade && nextSixTeenGames.map(game =>
+                    game.stats.home_prediction && game.stats.away_prediction ? (
+                        <ScoreForm.Games key={game.match_id}>
+                            <Link
+                                to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
+                                className="flex"
+                            >
+                                {<ScoreForm.Logo
+                                    src={game.home_team.logo}
+                                    alt={game.home_team.name}
+                                />}
+                                <ScoreForm.ShortName>
+                                    {game.home_team.short_code}
+                                </ScoreForm.ShortName>
+                            </Link>
+                            <p className="self-center">{game.stats.home_prediction}</p>
+                            <p className="self-center">-</p>
+                            <p className="self-center">{game.stats.away_prediction}</p>
+                            <Link
+                                to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
+                                className="flex"
+                            >
+                                <ScoreForm.ShortName>
+                                    {game.away_team.short_code}
+                                </ScoreForm.ShortName>
+                                {<ScoreForm.Logo
+                                    src={game.away_team.logo}
+                                    alt={game.away_team.name}
+                                />}
+                            </Link>
+                        </ScoreForm.Games>) : (null))}
             </section>
-
         </ScoreForm>
     )
 }
