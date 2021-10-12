@@ -16,8 +16,12 @@ ScoreForm.Form = function Form({ children, ...restProps }) {
     return <form {...restProps} className="form">{children}</form>
 }
 
-ScoreForm.Games = function Games({ children, ...restProps }) {
-    return <div {...restProps} className="w-full flex justify-center mt-1">{children}</div>
+ScoreForm.List = function List({ children, ...restProps }) {
+    return <ul {...restProps}>{children}</ul>
+}
+
+ScoreForm.ListItem = function ListItem({ children, ...restProps }) {
+    return <li {...restProps} className="w-full flex justify-center mt-1">{children}</li>
 }
 
 ScoreForm.Label = function Label({ children, ...restProps }) {
@@ -37,6 +41,23 @@ ScoreForm.Input = function Input({ children, ...restProps }) {
 }
 
 ScoreForm.Button = function Button({ children, ...restProps }) {
-    return <button {...restProps} className="flex justify-center  py-2 px-0 text-white font-bold text-sm cursor-pointer rounded-full bg-gradient-to-r from-blue-800 to-blue-500 border-transparent my-10 mx-auto w-1/4 md:w-1/2">{children}</button>
+    return <button {...restProps} className="
+    flex justify-center py-2 px-0 my-10 mx-auto
+    text-white font-bold text-sm 
+    cursor-pointer 
+    rounded-full bg-gradient-to-r from-blue-800 to-blue-500 border-transparent 
+    my-10 mx-auto
+    w-1/4 
+    md:w-1/2
+    ">{children}</button>
+}
+
+ScoreForm.DeleteButton = function DeleteButton({ children, ...restProps }) {
+    return <button {...restProps} className="
+    flex justify-center py-1 px-1 ml-2
+    text-white font-bold text-sm 
+    cursor-pointer 
+    rounded-full bg-gradient-to-r from-red-800 to-red-500 border-transparent 
+    ">{children}</button>
 }
 
