@@ -6,29 +6,17 @@ import FooterContainer from '../../containers/footer'
 import TopScorersContainer from '../../containers/topScorers'
 import ScoreForm from '../../containers/scoreForm'
 import { useAuth } from '../../utils/hooks/useAuth';
-import useAxios from '../../utils/hooks/useAxios'
-import { object } from 'prop-types';
+import { useAllMatches } from '../../utils/hooks/allMatches';
 
 const HomePage = () => {
   const userInfo = useAuth();
   const [auth, setAuth] = useState({});
-  const [teams, setTeams] = useState({})
 
-  const apiKey = process.env.REACT_APP_SPORTDATAAPI_API_KEY
-
-  const { response, error, loading } = useAxios({
-    url: `https://app.sportdataapi.com/api/v1/soccer/matches?apikey=${apiKey}&season_id=1959&date_from=2021-09-11`,
-  });
+  const { response, error, loading } = useAllMatches();
 
   useEffect(() => {
     setAuth(userInfo)
   }, [userInfo]);
-
-  useEffect(() => {
-    const clubs = []
-    response && response.data.slice(0, 16).map(match => clubs.push(match.home_team, match.away_team))
-    setTeams(clubs)
-  }, [response])
 
   const welcomeMessage = auth?.currentUser?.displayName
     ? `Welcome ${auth?.currentUser?.displayName}`
