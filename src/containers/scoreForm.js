@@ -31,7 +31,6 @@ export default function ScoreFormContainer({ response, error }) {
         setPredictionsMade(arePredictionsMade())
     };
 
-
     const deletePrediction = async (matchId) => {
         await setPredictionsMade(false)
         const matchIndex = nextSixTeenGames.findIndex(game => game.match_id == matchId)
@@ -64,6 +63,7 @@ export default function ScoreFormContainer({ response, error }) {
                                     : (<ScoreForm.ListItem key={game.match_id}>
                                         <Link
                                             to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
+                                            target="_blank"
                                             className="flex"
                                         >
                                             <ScoreForm.Label htmlFor={game.home_team.name} >
@@ -95,6 +95,7 @@ export default function ScoreFormContainer({ response, error }) {
                                         />
                                         <Link
                                             to={`/clubs/${game.away_team.name}/${game.away_team.team_id}`}
+                                            target="_blank"
                                             className="flex"
                                         >
                                             <ScoreForm.Label htmlFor={game.away_team.name}>
@@ -119,6 +120,7 @@ export default function ScoreFormContainer({ response, error }) {
                             <ScoreForm.ListItem key={game.match_id}>
                                 <Link
                                     to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
+                                    target="_blank"
                                     className="flex"
                                 >
                                     {<ScoreForm.Logo
@@ -134,6 +136,7 @@ export default function ScoreFormContainer({ response, error }) {
                                 <p className="self-center">{game.stats.away_prediction}</p>
                                 <Link
                                     to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
+                                    target="_blank"
                                     className="flex"
                                 >
                                     <ScoreForm.ShortName>

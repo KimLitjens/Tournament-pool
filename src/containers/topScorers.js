@@ -18,7 +18,10 @@ export default function TopScorersContainer() {
                     {response.data.slice(0, 20).map(topScorer =>
                         <TopScorers.TopScorer key={topScorer.player.player_id}>
                             {`${topScorer.pos}: `}
-                            <Link to={`/players/${topScorer.player.player_name}/${topScorer.player.player_id}`}>
+                            <Link
+                                to={`/players/${topScorer.player.player_name}/${topScorer.player.player_id}/${topScorer.team.team_id}`}
+                                target="_blank"
+                            >
                                 {topScorer.player.player_name}
                             </Link>
                             {` - ${topScorer.goals.overall}`}

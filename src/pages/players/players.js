@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import useAxios from '../../utils/hooks/useAxios'
 
 export default function Players() {
-    const { player, id } = useParams();
+    const { player, id, team_id } = useParams();
 
     const apiKey = process.env.REACT_APP_SPORTDATAAPI_API_KEY
 
