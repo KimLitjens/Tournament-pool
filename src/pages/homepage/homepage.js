@@ -12,7 +12,7 @@ const HomePage = () => {
   const userInfo = useAuth();
   const [auth, setAuth] = useState({});
 
-  const { response, error, loading } = useAllMatches();
+  const { response, error } = useAllMatches();
 
   useEffect(() => {
     setAuth(userInfo)
@@ -25,11 +25,11 @@ const HomePage = () => {
   return (
     <div>
       <div className="pag w-full">
-        <HeaderContainer welcomeMessage={welcomeMessage} error={error} loading={loading} />
-        <div className="mainPart md:flex flex-row justify-between w-full">
+        <HeaderContainer welcomeMessage={welcomeMessage} error={error} />
+        <div className="mainPart md:flex flex-row justify-between w-full" >
           <SidebarLeftContainer response={response} />
-          <div className="middle justify-center">
-            <ScoreForm response={response} error={error} loading={loading} />
+          <div className="middle justify-center" >
+            <ScoreForm response={response} error={error} />
           </div>
           <TopScorersContainer />
         </div>
