@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import useInput from '../utils/hooks/useInput';
 import { firebaseApp, db } from '../firebase';
-import { collection, addDoc } from "firebase/firestore"
+import { collection, setDoc, doc } from "firebase/firestore"
 import { AuthForm } from '../components'
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 
@@ -27,7 +27,7 @@ export default function Form({ type }) {
               displayName: username.value
             })
 
-            addDoc(collection(db, 'users'), {
+            setDoc(doc(db, 'users', user.uid), {
               userId: user.uid,
               username: username.value.toLowerCase(),
               fullName: fullName.value,
