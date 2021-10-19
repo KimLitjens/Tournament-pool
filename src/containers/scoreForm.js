@@ -1,21 +1,38 @@
 import React, { useState, useEffect } from 'react'
 import { ScoreForm } from '../components'
 import { Link } from "react-router-dom";
-import { firebaseApp, db } from '../firebase';
-import { setDoc, doc } from "firebase/firestore"
+import { db } from '../firebase';
+import { collection, doc, getDoc, getDocs, setDoc, updateDoc, } from "firebase/firestore"
 
 export default function ScoreFormContainer({ response, error, userId }) {
     const [nextSixTeenGames, setNextSixTeenGames] = useState([])
-    const [predictionsMade, setPredictionsMade] = useState(false)
+    const [myPredictions, setMyPredictions] = useState([])
 
-    function getNextSixteenGames() {
+    const saveGamesInFS = () => {
+        nextSixTeenGames.forEach(async function (match) {
+            console.log(match.match_id)
+            const matchId = '' + match.match_id
+            const docRef = doc(db, "users", userId, "predictions", matchId);
+            const docSnap = await getDoc(docRef);
+
+            if (!docSnap.exists()) {
+                try {
+                    setDoc(docRef, match);
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                }
+            }
+        })
+    }
+
+    const getNextSixteenGames = () => {
         const playedGames = response.data.filter(game => game.status === 'notstarted')
         const nextSixTeenGames = playedGames.slice(0, 16)
         setNextSixTeenGames(nextSixTeenGames)
         console.log(nextSixTeenGames)
     }
 
-    function arePredictionsMade() {
+    const arePredictionsMade = () => {
         if (nextSixTeenGames.some(obj => obj.stats.away_prediction && obj.stats.home_prediction)) {
             return true
         } else {
@@ -23,38 +40,15 @@ export default function ScoreFormContainer({ response, error, userId }) {
         }
     }
 
-    useEffect(() => {
-        response && getNextSixteenGames()
-    }, [response])
-
-    const onSubmitHandler = async (e) => {
-        e.preventDefault()
-        await setPredictionsMade(false)
-        setPredictionsMade(arePredictionsMade())
+    const getMyPredictions = async () => {
+        const querySnapshot = await getDocs(collection(db, "users", userId, "predictions"));
+        const predictedGames = []
+        querySnapshot.forEach((doc) => {
+            predictedGames.push(doc.data())
+            console.log(doc.id)
+        });
+        setMyPredictions(predictedGames)
     };
-
-    const savePredictions = async () => {
-        const predictedGames = await nextSixTeenGames.filter(game => game.stats.home_prediction && game.stats.away_prediction)
-
-        for (let k = 0; k < predictedGames.length; k++) {
-            const matchId = '' + predictedGames[k].match_id
-            console.log(matchId)
-            try {
-                const docRef = await setDoc(doc(db, "users", userId, "predictions", matchId), predictedGames[k]);
-                console.log("Document written with ID: ", docRef);
-            } catch (e) {
-                console.error("Error adding document: ", e);
-            }
-        }
-    }
-
-    const deletePrediction = async (matchId) => {
-        await setPredictionsMade(false)
-        const matchIndex = nextSixTeenGames.findIndex(game => game.match_id == matchId)
-        delete nextSixTeenGames[matchIndex].stats.away_prediction
-        delete nextSixTeenGames[matchIndex].stats.home_prediction
-        setPredictionsMade(arePredictionsMade())
-    }
 
     const onChange = (e) => {
         const matchIndex = nextSixTeenGames.findIndex(game => game.match_id == e.target.name)
@@ -65,6 +59,56 @@ export default function ScoreFormContainer({ response, error, userId }) {
         Object.assign(nextSixTeenGames[matchIndex].stats, prediction)
     }
 
+    const onSubmitHandler = async (e) => {
+        e.preventDefault()
+        const predictionMade = { "prediction_made": true }
+        nextSixTeenGames.map(game => game.stats.home_prediction && game.stats.away_prediction ?
+            Object.assign(game.stats, predictionMade) : null)
+    };
+
+    const savePredictions = async () => {
+        for (let k = 0; k < nextSixTeenGames.length; k++) {
+            const matchId = '' + nextSixTeenGames[k].match_id
+            const matchDocRef = doc(db, "users", userId, "predictions", matchId)
+
+            if (nextSixTeenGames[k].stats.prediction_made) {
+                try {
+                    setDoc(matchDocRef, nextSixTeenGames[k]);
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                }
+            } else if (nextSixTeenGames[k].stats.prediction_made === false) {
+                try {
+                    await updateDoc(matchDocRef, {
+                        "stats.away_prediction": null,
+                        "stats.home_prediction": null,
+                        "stats.prediction_made": false
+                    })
+                } catch (e) {
+                    console.error("Error update document: ", e)
+                }
+            }
+        }
+    }
+
+    const deletePrediction = async (matchId) => {
+        const matchIndex = nextSixTeenGames.findIndex(game => game.match_id == matchId)
+        nextSixTeenGames[matchIndex].stats.away_prediction = null
+        nextSixTeenGames[matchIndex].stats.home_prediction = null
+        nextSixTeenGames[matchIndex].stats.prediction_made = false
+    }
+
+    useEffect(() => {
+        userId && getMyPredictions()
+    }, [userId])
+
+    useEffect(() => {
+        response && getNextSixteenGames()
+    }, [response])
+
+    useEffect(() => {
+        nextSixTeenGames && saveGamesInFS()
+    }, [nextSixTeenGames])
     return (
         <ScoreForm>
             <ScoreForm.Title>Score Form</ScoreForm.Title>
@@ -130,8 +174,8 @@ export default function ScoreFormContainer({ response, error, userId }) {
                         <ScoreForm.Button type="submit">Submit</ScoreForm.Button>
                     </ScoreForm.Form>)}
             <section>
-                {predictionsMade && <h2 className="text-center">Predictions</h2>}
-                {predictionsMade && <ScoreForm.List>
+                {myPredictions && <h2 className="text-center">Predictions</h2>}
+                {nextSixTeenGames && <ScoreForm.List>
                     {nextSixTeenGames.map(game =>
                         game.stats.home_prediction && game.stats.away_prediction ? (
                             <ScoreForm.ListItem key={game.match_id}>
