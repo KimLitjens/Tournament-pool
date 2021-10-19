@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { ScoreForm } from '../components'
 import { Link } from "react-router-dom";
+import { firebaseApp, db } from '../firebase';
+import { setDoc, doc } from "firebase/firestore"
 
-export default function ScoreFormContainer({ response, error }) {
-    const [nextSixTeenGames, setNextSixTeenGames] = useState()
+export default function ScoreFormContainer({ response, error, userId }) {
+    const [nextSixTeenGames, setNextSixTeenGames] = useState([])
     const [predictionsMade, setPredictionsMade] = useState(false)
 
     function getNextSixteenGames() {
@@ -30,6 +32,21 @@ export default function ScoreFormContainer({ response, error }) {
         await setPredictionsMade(false)
         setPredictionsMade(arePredictionsMade())
     };
+
+    const savePredictions = async () => {
+        const predictedGames = await nextSixTeenGames.filter(game => game.stats.home_prediction && game.stats.away_prediction)
+
+        for (let k = 0; k < predictedGames.length; k++) {
+            const matchId = '' + predictedGames[k].match_id
+            console.log(matchId)
+            try {
+                const docRef = await setDoc(doc(db, "users", userId, "predictions", matchId), predictedGames[k]);
+                console.log("Document written with ID: ", docRef);
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
+        }
+    }
 
     const deletePrediction = async (matchId) => {
         await setPredictionsMade(false)
@@ -150,6 +167,7 @@ export default function ScoreFormContainer({ response, error }) {
                                 <ScoreForm.DeleteButton onClick={() => deletePrediction(game.match_id)}>X</ScoreForm.DeleteButton>
                             </ScoreForm.ListItem>)
                             : (null))}
+                    <ScoreForm.Button onClick={savePredictions}>save Predictions</ScoreForm.Button>
                 </ScoreForm.List>}
             </section>
         </ScoreForm>

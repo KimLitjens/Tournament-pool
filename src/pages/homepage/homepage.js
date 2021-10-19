@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import SidebarLeftContainer from '../../containers/sidebarLeft'
-import SidebarRightContainer from '../../containers/sidebarRight'
 import HeaderContainer from '../../containers/header'
 import FooterContainer from '../../containers/footer'
 import TopScorersContainer from '../../containers/topScorers'
@@ -21,6 +20,7 @@ const HomePage = () => {
   const welcomeMessage = auth?.currentUser?.displayName
     ? `Welcome ${auth?.currentUser?.displayName}`
     : 'Welcome';
+  const userId = auth?.currentUser?.uid
 
   return (
     <div>
@@ -29,9 +29,9 @@ const HomePage = () => {
         <div className="mainPart md:flex flex-row justify-between w-full" >
           <SidebarLeftContainer response={response} />
           <div className="middle justify-center" >
-            <ScoreForm response={response} error={error} />
+            <ScoreForm response={response} error={error} userId={userId} />
           </div>
-          <TopScorersContainer />
+          {/* <TopScorersContainer /> */}
         </div>
       </div>
       <FooterContainer />
