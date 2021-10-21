@@ -39,7 +39,8 @@ export default function ScoreFormContainer({ response, error, userId }) {
         querySnapshot.forEach((doc) => {
             predictedGames.push(doc.data())
         });
-        setMyPredictions(predictedGames)
+        const predictedCurrentRound = predictedGames.filter(game => game.round.is_current === 1)
+        setMyPredictions(predictedCurrentRound)
     };
 
     const arePredictionsMade = () => {
@@ -98,15 +99,6 @@ export default function ScoreFormContainer({ response, error, userId }) {
         myPredictions[matchIndex].stats.home_prediction = null
         myPredictions[matchIndex].stats.prediction_made = false
         setPredictionsMade(arePredictionsMade())
-    }
-
-    const checkMatchStarted = (game) => {
-        const timeFiveMinLater = Date.parse(new Date(Date.now() + 1000 * (60 * 5)).toISOString())
-        const matchStart = Date.parse(game.match_start_iso)
-        if (matchStart > timeFiveMinLater) {
-            return true
-        }
-
     }
 
     useEffect(() => {
@@ -193,7 +185,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
                 {predictionsMade && <h2 className="text-center">Predictions</h2>}
                 {predictionsMade && <ScoreForm.List>
                     {myPredictions.map(game =>
-                        game.stats.home_prediction && checkMatchStarted(game) ? (
+                        game.stats.home_prediction ? (
                             <ScoreForm.ListItem key={game.match_id}>
                                 <Link
                                     to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
