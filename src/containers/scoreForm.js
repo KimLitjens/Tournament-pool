@@ -5,19 +5,20 @@ import { db } from '../firebase';
 import { collection, doc, getDoc, getDocs, setDoc, updateDoc, } from "firebase/firestore"
 
 export default function ScoreFormContainer({ response, error, userId }) {
-    const [nextSixTeenGames, setNextSixTeenGames] = useState([])
+    const [currentRound, setCurrentRound] = useState([])
     const [predictionsMade, setPredictionsMade] = useState(false)
     const [myPredictions, setMyPredictions] = useState([])
 
-    const getNextSixteenGames = async () => {
-        const playedGames = response.data.filter(game => game.status === 'notstarted')
-        const nextSixTeenGames = playedGames.slice(0, 16)
-        setNextSixTeenGames(nextSixTeenGames)
-        console.log(nextSixTeenGames)
+    const getCurrentRound = async () => {
+        console.log(response.data)
+        const currentRound = response.data.filter(game => game.round.is_current === 1)
+        console.log()
+        setCurrentRound(currentRound)
+        console.log(currentRound)
     }
 
     const saveGamesInFS = () => {
-        nextSixTeenGames.forEach(async function (match) {
+        currentRound.forEach(async function (match) {
             const matchId = '' + match.match_id
             const docRef = doc(db, "users", userId, "predictions", matchId);
             const docSnap = await getDoc(docRef);
@@ -71,22 +72,21 @@ export default function ScoreFormContainer({ response, error, userId }) {
             const matchId = '' + myPredictions[k].match_id
             const matchDocRef = doc(db, "users", userId, "predictions", matchId)
 
-            if (myPredictions[k].stats.prediction_made) {
-                try {
+            try {
+                if (myPredictions[k].stats.prediction_made) {
                     setDoc(matchDocRef, myPredictions[k]);
-                } catch (e) {
-                    console.error("Error adding document: ", e);
-                }
-            } else if (myPredictions[k].stats.prediction_made === false) {
-                try {
+                } else if (myPredictions[k].stats.prediction_made === false) {
+
                     await updateDoc(matchDocRef, {
                         "stats.away_prediction": null,
                         "stats.home_prediction": null,
                         "stats.prediction_made": false
                     })
-                } catch (e) {
-                    console.error("Error update document: ", e)
                 }
+                console.log("predictions Saved")
+            } catch (e) {
+                console.error("Error adding document: ", e);
+
             }
         }
     }
@@ -100,17 +100,26 @@ export default function ScoreFormContainer({ response, error, userId }) {
         setPredictionsMade(arePredictionsMade())
     }
 
+    const checkMatchStarted = (game) => {
+        const timeFiveMinLater = Date.parse(new Date(Date.now() + 1000 * (60 * 5)).toISOString())
+        const matchStart = Date.parse(game.match_start_iso)
+        if (matchStart > timeFiveMinLater) {
+            return true
+        }
+
+    }
+
     useEffect(() => {
         userId && getMyPredictions()
     }, [userId])
 
     useEffect(() => {
-        response && getNextSixteenGames()
+        response && getCurrentRound()
     }, [response])
 
     useEffect(() => {
-        nextSixTeenGames && saveGamesInFS()
-    }, [nextSixTeenGames])
+        currentRound && saveGamesInFS()
+    }, [currentRound])
 
     useEffect(() => {
         setPredictionsMade(arePredictionsMade())
@@ -119,15 +128,15 @@ export default function ScoreFormContainer({ response, error, userId }) {
     return (
         <ScoreForm>
             <ScoreForm.Title>Score Form</ScoreForm.Title>
-            {!myPredictions ? (
+            {!currentRound ? (
                 <ScoreForm.Label>Loading...</ScoreForm.Label>
             ) : (
                     <ScoreForm.Form
                         onSubmit={(e) => onSubmitHandler(e)}
                         className="form">
                         <ScoreForm.List>
-                            {myPredictions.map(game =>
-                                game.stats.home_prediction && game.stats.away_prediction ? null
+                            {currentRound.map(game =>
+                                game.stats.prediction_made && game.stats.away_prediction ? null
                                     : (<ScoreForm.ListItem key={game.match_id}>
                                         <Link
                                             to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
@@ -145,21 +154,21 @@ export default function ScoreFormContainer({ response, error, userId }) {
                                             </ScoreForm.Label>
                                         </Link>
                                         <ScoreForm.Input
-                                            type="number"
+                                            type="tel"
                                             id={"home_prediction"}
                                             name={game.match_id}
                                             onChange={onChange}
-                                            min="0"
-                                            max="99"
+                                            maxLength="2"
+                                            pattern="[0-9]*"
                                         />
                                         <p>-</p>
                                         <ScoreForm.Input
-                                            type="number"
+                                            type="tel"
                                             id={"away_prediction"}
                                             name={game.match_id}
                                             onChange={onChange}
-                                            min="0"
-                                            max="99"
+                                            maxLength="2"
+                                            pattern="[0-9]*"
                                         />
                                         <Link
                                             to={`/clubs/${game.away_team.name}/${game.away_team.team_id}`}
@@ -184,7 +193,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
                 {predictionsMade && <h2 className="text-center">Predictions</h2>}
                 {predictionsMade && <ScoreForm.List>
                     {myPredictions.map(game =>
-                        game.stats.home_prediction && game.stats.away_prediction ? (
+                        game.stats.home_prediction && checkMatchStarted(game) ? (
                             <ScoreForm.ListItem key={game.match_id}>
                                 <Link
                                     to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}

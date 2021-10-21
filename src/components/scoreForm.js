@@ -37,7 +37,11 @@ ScoreForm.ShortName = function ShortName({ children, ...restProps }) {
 }
 
 ScoreForm.Input = function Input({ children, ...restProps }) {
-    return <input {...restProps} className="shadow appearance-none border rounded w-10 mx-2 py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{children}</input>
+    return <input {...restProps}
+        className="shadow appearance-none border rounded-full
+     w-10 mx-2 py-1 px-1 text-gray-700 leading-tight 
+     focus:outline-none focus:shadow-outline"
+    >{children}</input>
 }
 
 ScoreForm.Button = function Button({ children, ...restProps }) {
