@@ -13,11 +13,9 @@ export default function ScoreFormContainer({ response, error, userId }) {
     const getCurrentRound = async () => {
         const currentRound = response.data.filter(game => game.round.is_current === 1)
         setCurrentRound(currentRound)
-        console.log(currentRound)
     }
 
     const getMyPredictions = async () => {
-        console.log(myPredictions)
         const querySnapshot = await getDocs(collection(db, "users", userId, "predictions"));
         const predictedGames = []
         querySnapshot.forEach((doc) => {
@@ -25,7 +23,6 @@ export default function ScoreFormContainer({ response, error, userId }) {
         });
         const predictedCurrentRound = predictedGames.filter(game => currentRound.some(id => game.match_id === id.match_id))
         setMyPredictions(predictedCurrentRound)
-        console.log(predictedCurrentRound)
     };
 
     const saveGamesInFS = () => {

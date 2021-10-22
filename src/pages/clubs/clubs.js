@@ -2,6 +2,7 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import useAxios from '../../utils/hooks/useAxios'
 import MatchesContainer from '../../containers/matches'
+import GroupStandingContainer from '../../containers/groupStanding'
 
 export default function Clubs() {
     const { club, team_id } = useParams()
@@ -30,6 +31,8 @@ export default function Clubs() {
                             </div>
                             <p className="text-center my-2">Country: {response.data.country.name}</p>
                         </div>
+                        <GroupStandingContainer teamId={team_id} />
+
                     </div>
                 }
                 <MatchesContainer teamId={team_id} matchStatus={nextGames} Title="Next Games" />
