@@ -17,6 +17,17 @@ export default function ScoreFormContainer({ response, error, userId }) {
         console.log(currentRound)
     }
 
+    const getMyPredictions = async () => {
+        const querySnapshot = await getDocs(collection(db, "users", userId, "predictions"));
+        const predictedGames = []
+        querySnapshot.forEach((doc) => {
+            predictedGames.push(doc.data())
+        });
+        const predictedCurrentRound = predictedGames.filter(game => currentRound.some(id => game.match_id === id.match_id))
+        setMyPredictions(predictedCurrentRound)
+        console.log(predictedCurrentRound)
+    };
+
     const saveGamesInFS = () => {
         currentRound.forEach(async function (match) {
             const matchId = '' + match.match_id
@@ -32,16 +43,6 @@ export default function ScoreFormContainer({ response, error, userId }) {
             }
         })
     }
-
-    const getMyPredictions = async () => {
-        const querySnapshot = await getDocs(collection(db, "users", userId, "predictions"));
-        const predictedGames = []
-        querySnapshot.forEach((doc) => {
-            predictedGames.push(doc.data())
-        });
-        const predictedCurrentRound = predictedGames.filter(game => game.round.is_current === 1)
-        setMyPredictions(predictedCurrentRound)
-    };
 
     const arePredictionsMade = () => {
         if (myPredictions.some(obj => obj.stats.away_prediction && obj.stats.home_prediction)) {
@@ -98,6 +99,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
         myPredictions[matchIndex].stats.away_prediction = null
         myPredictions[matchIndex].stats.home_prediction = null
         myPredictions[matchIndex].stats.prediction_made = false
+        console.log(myPredictions[matchIndex].match_id, myPredictions[matchIndex].stats.prediction_made)
         setPredictionsMade(arePredictionsMade())
     }
 
@@ -120,14 +122,14 @@ export default function ScoreFormContainer({ response, error, userId }) {
     return (
         <ScoreForm>
             <ScoreForm.Title>Score Form</ScoreForm.Title>
-            {!currentRound ? (
+            {!myPredictions ? (
                 <ScoreForm.Label>Loading...</ScoreForm.Label>
             ) : (
                     <ScoreForm.Form
                         onSubmit={(e) => onSubmitHandler(e)}
                         className="form">
                         <ScoreForm.List>
-                            {currentRound.map(game =>
+                            {myPredictions.map(game =>
                                 game.stats.prediction_made && game.stats.away_prediction ? null
                                     : (<ScoreForm.ListItem key={game.match_id}>
                                         <Link
@@ -182,9 +184,9 @@ export default function ScoreFormContainer({ response, error, userId }) {
                         <ScoreForm.Button type="submit">Submit</ScoreForm.Button>
                     </ScoreForm.Form>)}
             <section>
-                {predictionsMade && <h2 className="text-center">Predictions</h2>}
-                {predictionsMade && <ScoreForm.List>
-                    {myPredictions.map(game =>
+                {<h2 className="text-center">Predictions</h2>}
+                {<ScoreForm.List>
+                    {predictionsMade && myPredictions.map(game =>
                         game.stats.home_prediction ? (
                             <ScoreForm.ListItem key={game.match_id}>
                                 <Link
@@ -218,7 +220,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
                                 </Link>
                                 <ScoreForm.DeleteButton onClick={() => deletePrediction(game.match_id)}>X</ScoreForm.DeleteButton>
                             </ScoreForm.ListItem>)
-                            : (null))}
+                            : null)}
                     <ScoreForm.Button onClick={savePredictions}>save Predictions</ScoreForm.Button>
                 </ScoreForm.List>}
             </section>
