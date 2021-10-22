@@ -8,6 +8,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
     const [currentRound, setCurrentRound] = useState([])
     const [predictionsMade, setPredictionsMade] = useState(false)
     const [myPredictions, setMyPredictions] = useState([])
+    const [savePredictionsMessage, setsavePredictionsMessage] = useState("")
 
     const getCurrentRound = async () => {
         console.log(response.data)
@@ -69,27 +70,30 @@ export default function ScoreFormContainer({ response, error, userId }) {
     };
 
     const savePredictions = async () => {
+        setsavePredictionsMessage("")
+        try {
+            for (let k = 0; k < myPredictions.length; k++) {
+                const matchId = '' + myPredictions[k].match_id
+                const matchDocRef = doc(db, "users", userId, "predictions",)
 
-        for (let k = 0; k < myPredictions.length; k++) {
-            const matchId = '' + myPredictions[k].match_id
-            const matchDocRef = doc(db, "users", userId, "predictions", matchId)
-
-            try {
                 if (myPredictions[k].stats.prediction_made) {
+
                     setDoc(matchDocRef, myPredictions[k]);
+
                 } else if (myPredictions[k].stats.prediction_made === false) {
 
                     await updateDoc(matchDocRef, {
                         "stats.away_prediction": null,
                         "stats.home_prediction": null,
                         "stats.prediction_made": false
+
                     })
                 }
-                console.log("predictions Saved")
-            } catch (e) {
-                console.error("Error adding document: ", e);
-
             }
+            setsavePredictionsMessage("Predictions Saved")
+        } catch (e) {
+            console.log("Error adding document: ", e)
+            alert("Something went wrong with saving!");
         }
     }
 
@@ -184,7 +188,8 @@ export default function ScoreFormContainer({ response, error, userId }) {
                         <ScoreForm.Button type="submit">Submit</ScoreForm.Button>
                     </ScoreForm.Form>)}
             <section>
-                {<h2 className="text-center">Predictions</h2>}
+                <h3 className="text-center text-white bg-green-500">{savePredictionsMessage}</h3>
+                <h2 className="text-center">Predictions</h2>
                 {<ScoreForm.List>
                     {predictionsMade && myPredictions.map(game =>
                         game.stats.home_prediction ? (
