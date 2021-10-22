@@ -11,14 +11,13 @@ export default function ScoreFormContainer({ response, error, userId }) {
     const [savePredictionsMessage, setsavePredictionsMessage] = useState("")
 
     const getCurrentRound = async () => {
-        console.log(response.data)
         const currentRound = response.data.filter(game => game.round.is_current === 1)
-        console.log()
         setCurrentRound(currentRound)
         console.log(currentRound)
     }
 
     const getMyPredictions = async () => {
+        console.log(myPredictions)
         const querySnapshot = await getDocs(collection(db, "users", userId, "predictions"));
         const predictedGames = []
         querySnapshot.forEach((doc) => {
@@ -74,7 +73,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
         try {
             for (let k = 0; k < myPredictions.length; k++) {
                 const matchId = '' + myPredictions[k].match_id
-                const matchDocRef = doc(db, "users", userId, "predictions",)
+                const matchDocRef = doc(db, "users", userId, "predictions", matchId)
 
                 if (myPredictions[k].stats.prediction_made) {
 
@@ -103,7 +102,6 @@ export default function ScoreFormContainer({ response, error, userId }) {
         myPredictions[matchIndex].stats.away_prediction = null
         myPredictions[matchIndex].stats.home_prediction = null
         myPredictions[matchIndex].stats.prediction_made = false
-        console.log(myPredictions[matchIndex].match_id, myPredictions[matchIndex].stats.prediction_made)
         setPredictionsMade(arePredictionsMade())
     }
 
@@ -126,8 +124,8 @@ export default function ScoreFormContainer({ response, error, userId }) {
     return (
         <ScoreForm>
             <ScoreForm.Title>Score Form</ScoreForm.Title>
-            {!myPredictions ? (
-                <ScoreForm.Label>Loading...</ScoreForm.Label>
+            {!myPredictions.length ? (
+                <ScoreForm.Loading>Loading...</ScoreForm.Loading>
             ) : (
                     <ScoreForm.Form
                         onSubmit={(e) => onSubmitHandler(e)}

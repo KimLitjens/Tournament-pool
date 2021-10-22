@@ -8,8 +8,8 @@ ScoreForm.Title = function Title({ children, ...restProps }) {
     return <h1 {...restProps} className="text-center">{children}</h1>
 }
 
-ScoreForm.Loading = function Title({ children, ...restProps }) {
-    return <p {...restProps}>{children}</p>
+ScoreForm.Loading = function Loading({ children, ...restProps }) {
+    return <p {...restProps} className="text-center">{children}</p>
 }
 
 ScoreForm.Form = function Form({ children, ...restProps }) {
