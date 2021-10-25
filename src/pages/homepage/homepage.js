@@ -27,7 +27,7 @@ const HomePage = () => {
       <div className="pag w-full">
         <HeaderContainer welcomeMessage={welcomeMessage} error={error} />
         <div className="mainPart md:flex flex-row justify-between w-full" >
-          <SidebarLeftContainer response={response} />
+          <SidebarLeftContainer response={response} numGames={8} userId={userId} />
           <div className="middle justify-center" >
             <ScoreForm response={response} error={error} userId={userId} />
           </div>
