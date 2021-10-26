@@ -24,7 +24,6 @@ export default function SidebarLeftContainer({ response, error, userId, numGames
         })
         const lastSixTeenWithPrediction = predictedGames.filter(game => lastGamesFromApi.some(id => game.match_id === id.match_id))
         setGamesWithPredicition(lastSixTeenWithPrediction)
-        console.log("update mypred")
     };
 
     const updateFireStore = async () => {
@@ -44,7 +43,6 @@ export default function SidebarLeftContainer({ response, error, userId, numGames
                 console.error("Error adding document: ", e);
             }
         })
-        console.log("update fs")
     }
 
     useEffect(() => {
@@ -52,7 +50,7 @@ export default function SidebarLeftContainer({ response, error, userId, numGames
     }, [response])
 
     useEffect(() => {
-        lastGamesFromApi && getMyPredictions()
+        lastGamesFromApi.length && getMyPredictions()
         lastGamesFromApi && updateFireStore()
     }, [lastGamesFromApi])
 
