@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { SidebarLeft } from '../components'
 import { Link } from "react-router-dom";
 
-import { collection, getDocs, updateDoc, doc } from "firebase/firestore"
+import { collection, getDocs, updateDoc, doc, getDoc } from "firebase/firestore"
 import { db } from '../firebase';
 
 
 export default function SidebarLeftContainer({ response, error, userId, numGames = 16 }) {
-    const [lastSixTeenGames, setlastSixTeenGames] = useState([])
+    const [lastGamesFromApi, setLastGamesFromApi] = useState([])
     const [gamesWithPrediction, setGamesWithPredicition] = useState([])
 
-    function getLastSixTeenGames() {
+    function getLastGamesFromApi() {
         const playedGames = response.data.filter(game => game.status === 'finished')
-        const lastSixTeenGames = playedGames.slice(-numGames).reverse()
-        setlastSixTeenGames(lastSixTeenGames)
+        const lastXGames = playedGames.slice(-numGames).reverse()
+        setLastGamesFromApi(lastXGames)
     }
 
     const getMyPredictions = async () => {
@@ -22,17 +22,39 @@ export default function SidebarLeftContainer({ response, error, userId, numGames
         querySnapshot.forEach((document) => {
             predictedGames.push(document.data())
         })
-        const lastSixTeenWithPrediction = predictedGames.filter(game => lastSixTeenGames.some(id => game.match_id === id.match_id))
-        console.log(lastSixTeenWithPrediction)
+        const lastSixTeenWithPrediction = predictedGames.filter(game => lastGamesFromApi.some(id => game.match_id === id.match_id))
         setGamesWithPredicition(lastSixTeenWithPrediction)
+        console.log("update mypred")
     };
+
+    const updateFireStore = async () => {
+        lastGamesFromApi.forEach(async (game) => {
+            const matchId = '' + game.match_id
+            const docRef = doc(db, "users", userId, "predictions", matchId);
+            try {
+                updateDoc(docRef, {
+                    "stats.away_score": game.stats.away_score,
+                    "stats.ft_score": game.stats.ft_score,
+                    "stats.home_score": game.stats.home_score,
+                    "stats.ht_score": game.stats.ht_score,
+                    "status": game.status,
+                    "status_code": game.status_code
+                });
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
+        })
+        console.log("update fs")
+    }
+
     useEffect(() => {
-        response && getLastSixTeenGames()
+        response && getLastGamesFromApi()
     }, [response])
 
     useEffect(() => {
-        lastSixTeenGames.length && getMyPredictions()
-    }, [])
+        lastGamesFromApi && getMyPredictions()
+        lastGamesFromApi && updateFireStore()
+    }, [lastGamesFromApi])
 
     return (
         <SidebarLeft>
