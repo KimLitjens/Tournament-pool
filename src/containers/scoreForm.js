@@ -103,15 +103,12 @@ export default function ScoreFormContainer({ response, error, userId }) {
     }
 
     useEffect(() => {
-        userId && getMyPredictions()
-    }, [userId])
-
-    useEffect(() => {
         response && getCurrentRound()
     }, [response])
 
     useEffect(() => {
         currentRound && saveGamesInFS()
+        currentRound.length && getMyPredictions()
     }, [currentRound])
 
     useEffect(() => {
@@ -186,8 +183,8 @@ export default function ScoreFormContainer({ response, error, userId }) {
                 <h3 className="text-center text-white bg-green-500">{savePredictionsMessage}</h3>
                 <h2 className="text-center">Predictions</h2>
                 {<ScoreForm.List>
-                    {predictionsMade && myPredictions.map(game =>
-                        game.stats.home_prediction ? (
+                    {predictionsMade ? myPredictions.map(game =>
+                        game.stats.home_prediction(
                             <ScoreForm.ListItem key={game.match_id}>
                                 <Link
                                     to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
@@ -220,7 +217,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
                                 </Link>
                                 <ScoreForm.DeleteButton onClick={() => deletePrediction(game.match_id)}>X</ScoreForm.DeleteButton>
                             </ScoreForm.ListItem>)
-                            : null)}
+                    ) : <p className="text-center">No prediction made</p>}
                     <ScoreForm.Button onClick={savePredictions}>save Predictions</ScoreForm.Button>
                 </ScoreForm.List>}
             </section>
