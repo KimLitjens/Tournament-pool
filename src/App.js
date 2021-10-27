@@ -4,6 +4,7 @@ import SignUp from './pages/sign-up/sign-up';
 import SignIn from './pages/sign-in/sign-in';
 import Players from './pages/players/players';
 import Clubs from './pages/clubs/clubs';
+import Predictions from './pages/predictions/predictions';
 import HomePage from './pages/homepage/homepage';
 import * as ROUTES from './constants/routes'
 import PrivateRoute from './containers/private-route';
@@ -27,6 +28,9 @@ function App() {
             </Route>
             <Route path={ROUTES.CLUBS} >
               <Clubs />
+            </Route>
+            <Route path={ROUTES.PREDICTIONS} >
+              <Predictions />
             </Route>
             <PrivateRoute exact path={ROUTES.HOMEPAGE}>
               <HomePage />

@@ -184,7 +184,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
                 <h2 className="text-center">Predictions</h2>
                 {<ScoreForm.List>
                     {predictionsMade ? myPredictions.map(game =>
-                        game.stats.home_prediction(
+                        game.stats.prediction_made && (
                             <ScoreForm.ListItem key={game.match_id}>
                                 <Link
                                     to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}

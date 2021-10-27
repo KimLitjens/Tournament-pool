@@ -17,15 +17,12 @@ const HomePage = () => {
     setAuth(userInfo)
   }, [userInfo]);
 
-  const welcomeMessage = auth?.currentUser?.displayName
-    ? `Welcome ${auth?.currentUser?.displayName}`
-    : 'Welcome';
   const userId = auth?.currentUser?.uid
 
   return (
     <div>
       <div className="pag w-full">
-        <HeaderContainer welcomeMessage={welcomeMessage} error={error} />
+        <HeaderContainer />
         <div className="mainPart md:flex flex-row justify-between w-full" >
           <SidebarLeftContainer response={response} numGames={8} userId={userId} />
           <div className="middle justify-center" >
