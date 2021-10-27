@@ -46,43 +46,43 @@ export default function PredictionsContainer() {
             <div>
                 <h1 className="text-center">Predictions page</h1>
             </div>
-            <div>
+            <div className="grid justify-items-center">
                 {usersPredictions.length && matchDates.map(date => <div className="text-center my-4">
-                    <h2>{new Date(date).toLocaleDateString().replaceAll("/", "-")}</h2>
-                    <h3>{new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</h3>
-                    {usersPredictions.map(match => match.match_start_iso == date ? <div className="flex justify-center">
-                        <img src={match.home_team.logo} alt={match.home_team.name} className="w-8 h-8 mx-2" />
-                        <p className="mx-3 w-7 text-center">{match.home_team.short_code}</p>
-                        <div className="flex mx-2">
-                            <p>{match.stats.home_prediction ?? "x"}</p>
-                            <p> - </p>
-                            <p>{match.stats.away_prediction ?? "x"}</p>
-                        </div>
-                        <p className="mx-3 w-7 text-center">{match.away_team.short_code}</p>
-                        <img src={match.away_team.logo} alt={match.away_team.name} className="w-8 h-8 mx-2" />
-                    </div> : null)}
+                    <h2>
+                        {new Date(date).toLocaleDateString().replaceAll("/", "-")}
+                    </h2>
+                    <h3>
+                        {new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </h3>
+                    <table className="table-auto">
+                        <thead>
+                            <tr>
+                                <th >Match</th>
+                                <th className="px-2">Predicted <br /> Result</th>
+                                <th >Match <br />Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {usersPredictions.map(match => match.match_start_iso == date ?
+                                <tr className="py-2">
+                                    <td className="flex ">
+                                        <img src={match.home_team.logo} alt={match.home_team.name} className="w-8 h-8 mx-2" />
+                                        <p className="mx-3 w-7 self-center">{match.home_team.short_code}</p>
+                                        <p className="self-center"> - </p>
+                                        <p className="mx-3 w-7 self-center">{match.away_team.short_code}</p>
+                                        <img src={match.away_team.logo} alt={match.away_team.name} className="w-12 h-8 px-2" />
+                                    </td>
+                                    <td>
+                                        <p>{match.stats.home_prediction ?? "x"} - {match.stats.away_prediction ?? "x"}</p>
+                                    </td>
+                                    <td>
+                                        <p className=""> {match.stats.ft_score}</p>
+                                    </td>
+                                </tr> : null)}
+                        </tbody>
+                    </table>
                 </div>)}
-
-
-
-
-                {/*                 
-                usersPredictions.map(match => <div className="flex justify-center">
-                        <img src={match.home_team.logo} alt={match.home_team.name} className="w-8 h-8 mx-2" />
-                        <p className="mx-3 w-7 text-center">{match.home_team.short_code}</p>
-                        <div className="flex mx-2">
-                            <p>{match.stats.home_prediction ? match.stats.home_prediction : "x"}</p>
-                            <p> - </p>
-                            <p>{match.stats.away_prediction ? match.stats.away_prediction : "x"}</p>
-                        </div>
-                        <p className="mx-3 w-7 text-center">{match.away_team.short_code}</p>
-                        <img src={match.away_team.logo} alt={match.away_team.name} className="w-8 h-8 mx-2" />
-                    </div>) */}
             </div>
         </>
     )
 }
-
-
-
-// .replace(/T.*/, '').split('-').reverse().join('-')
