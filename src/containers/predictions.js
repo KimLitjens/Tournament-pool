@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../firebase';
 import { useAuth } from '../utils/hooks/useAuth';
@@ -47,7 +48,7 @@ export default function PredictionsContainer() {
                 <h1 className="text-center">Predictions page</h1>
             </div>
             <div className="grid justify-items-center">
-                {usersPredictions.length && matchDates.map(date => <div className="text-center my-4">
+                {usersPredictions.length ? matchDates.map(date => <div className="text-center my-4">
                     <h2>
                         {new Date(date).toLocaleDateString().replaceAll("/", "-")}
                     </h2>
@@ -66,11 +67,16 @@ export default function PredictionsContainer() {
                             {usersPredictions.map(match => match.match_start_iso == date ?
                                 <tr className="py-2">
                                     <td className="flex ">
-                                        <img src={match.home_team.logo} alt={match.home_team.name} className="w-8 h-8 mx-2" />
-                                        <p className="mx-3 w-7 self-center">{match.home_team.short_code}</p>
-                                        <p className="self-center"> - </p>
-                                        <p className="mx-3 w-7 self-center">{match.away_team.short_code}</p>
-                                        <img src={match.away_team.logo} alt={match.away_team.name} className="w-12 h-8 px-2" />
+                                        <Link to={`/clubs/${match.home_team.name}/${match.home_team.team_id}`}
+                                            className="flex "
+                                            target="_blank"
+                                        >
+                                            <img src={match.home_team.logo} alt={match.home_team.name} className="w-8 h-8 mx-2" />
+                                            <p className="mx-3 w-7 self-center">{match.home_team.short_code}</p>
+                                            <p className="self-center"> - </p>
+                                            <p className="mx-3 w-7 self-center">{match.away_team.short_code}</p>
+                                            <img src={match.away_team.logo} alt={match.away_team.name} className="w-12 h-8 px-2" />
+                                        </Link>
                                     </td>
                                     <td>
                                         <p>{match.stats.home_prediction ?? "x"} - {match.stats.away_prediction ?? "x"}</p>
@@ -81,7 +87,7 @@ export default function PredictionsContainer() {
                                 </tr> : null)}
                         </tbody>
                     </table>
-                </div>)}
+                </div>) : <p>Loading...</p>}
             </div>
         </>
     )

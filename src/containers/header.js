@@ -17,10 +17,21 @@ export default function HeaderContainer() {
 
     return (
         <nav className="nav flex justify-between">
-            <div>
-
+            <div className="flex content-center">
+                <Link to={`/`}
+                    className="flex self-center mx-4"
+                >
+                    <button
+                        className="
+                                    text-white font-bold text-sm 
+                                    cursor-pointer 
+                                    flex justify-center py-2 px-4 mx-4
+                                    rounded-full bg-gradient-to-r from-blue-800 to-blue-500 border-transparent "                    >
+                        Home
+                    </button>
+                </Link>
             </div>
-            <div className="message">
+            <div className="my-2 flex self-center text-center text-4xl text-blue-800">
                 {welcomeMessage}
             </div>
             <div className="flex content-center">
@@ -28,7 +39,15 @@ export default function HeaderContainer() {
                     to={`/predictions`}
                     className="flex self-center mx-4"
                 >
-                    <p className="text-xl">predictions</p>
+                    <button
+                        className="
+                                    text-white font-bold text-sm 
+                                    cursor-pointer 
+                                    flex justify-center py-2 px-4 mx-4
+                                    rounded-full bg-gradient-to-r from-blue-800 to-blue-500 border-transparent"
+                    >
+                        Predictions
+                    </button>
                 </Link>
             </div>
         </nav>

@@ -218,7 +218,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
                                 <ScoreForm.DeleteButton onClick={() => deletePrediction(game.match_id)}>X</ScoreForm.DeleteButton>
                             </ScoreForm.ListItem>)
                     ) : <p className="text-center">No prediction made</p>}
-                    <ScoreForm.Button onClick={savePredictions}>save Predictions</ScoreForm.Button>
+                    <ScoreForm.Button onClick={savePredictions}>Save Predictions</ScoreForm.Button>
                 </ScoreForm.List>}
             </section>
         </ScoreForm>

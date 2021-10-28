@@ -75,7 +75,7 @@ export default function SidebarLeftContainer({ response, error, userId, numGames
                                 </Link>
                                 <div className="ml-2">
                                     <SidebarLeft.Score>{game.stats.home_score} - {game.stats.away_score}</SidebarLeft.Score>
-                                    <p className="text-center" >{game.stats.home_prediction} - {game.stats.away_prediction}</p>
+                                    {/* <p className="text-center" >{game.stats.home_prediction} - {game.stats.away_prediction}</p> */}
                                 </div>
                                 <Link to={`/clubs/${game.away_team.name}/${game.away_team.team_id}`}
                                     target="_blank"
