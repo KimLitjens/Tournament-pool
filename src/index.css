@@ -37,28 +37,6 @@ code {
     monospace;
 }
 
-.primaryButton {
-  position:relative;
-  /* margin-top:100%;   */
-  align-self: center;
-  width: 66%;
-  padding: 10px 0;
-  border-radius: 50px;
-  background: linear-gradient(90deg, #2659bf, #0390fc);
-  border: transparent;
-  color: white;
-  font-weight: 700;
-  font-size: 15px;
-  cursor: pointer
-}
-
-.message {
-  margin: auto;
-  color: #808080;
-  margin: 10px;
-  font-size: 30px;
-}
-
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
