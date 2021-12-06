@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import useAxios from '../utils/hooks/useAxios'
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../firebase';
+import { Link } from "react-router-dom";
+
 
 export default function GroupStandingContainer({ teamId }) {
     const [currentGroup, setCurrentGroup] = useState([])
@@ -25,9 +27,7 @@ export default function GroupStandingContainer({ teamId }) {
                 Object.assign(addedClubInfo[teamIndex], addTeamInfo)
             }
         });
-        console.log("addedClub: ", addedClubInfo)
         setGroupWithClubInfo(addedClubInfo)
-        console.log("got club info")
     }
 
     const getAllGroups = () => {
@@ -50,13 +50,56 @@ export default function GroupStandingContainer({ teamId }) {
     useEffect(() => {
         standingsAllGroups && getCurrentGroup()
     }, [standingsAllGroups])
-
     return (
-        <div className="mt-8">
+        <>
             <h1 className="text-center">GroupStanding</h1>
-            {groupWithClubInfo && groupWithClubInfo.map(team => <div className="flex" key={team.team_id}>
-                <p className="m-2 self-center">{team.position}: </p> <h2 className="w-52 text-center self-center">{team.team_info.name}</h2><p className="self-center">{team.points}</p>
-            </div>)}
-        </div>
+            <table className="table-auto">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th></th>
+                        <th>TEAM</th>
+                        <th className="px-4">PTS</th>
+                        <th className="px-4">F</th>
+                        <th className="px-4">A</th>
+                        <th className="px-4">GD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {groupWithClubInfo && groupWithClubInfo.map(team => <tr key={team.team_id}>
+
+                        <td>
+                            <p className="m-2 self-center">{team.position}: </p>
+                        </td>
+                        <td>
+                            <Link to={`/clubs/${team.team_info.name}/${team.team_info.team_id}`}
+                                className="flex"
+                                target="_blank"
+                            >
+                                <img src={team.team_info.logo} alt="" className="w-8 h-8 self-center" />
+                            </Link>
+                        </td>
+                        <td>
+                            <h2 className="w-52 text-center self-center">{team.team_info.name}</h2>
+                        </td>
+                        <td>
+                            <p className="self-center text-center">{team.points}</p>
+                        </td>
+                        <td>
+                            <p className="self-center text-center">{team.overall.goals_scored}</p>
+                        </td>
+                        <td>
+                            <p className="self-center text-center">{team.overall.goals_against}</p>
+                        </td>
+                        <td>
+                            <p className="self-center text-center">{team.overall.goals_diff}</p>
+                        </td>
+                    </tr>)}
+                </tbody>
+
+            </table>
+        </>
     )
 }
+
+

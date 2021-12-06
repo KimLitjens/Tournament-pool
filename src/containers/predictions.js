@@ -71,7 +71,10 @@ export default function PredictionsContainer() {
                                             className="flex "
                                             target="_blank"
                                         >
-                                            <img src={match.home_team.logo} alt={match.home_team.name} className="w-8 h-8 mx-2" />
+                                            <img
+                                                src={match.home_team.logo}
+                                                alt={match.home_team.name}
+                                                className="w-8 h-8 mx-2" />
                                             <p className="mx-3 w-7 self-center">{match.home_team.short_code}</p>
                                             <p className="self-center"> - </p>
                                             <p className="mx-3 w-7 self-center">{match.away_team.short_code}</p>
