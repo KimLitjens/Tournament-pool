@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import useAxios from '../../utils/hooks/useAxios'
 import MatchesContainer from '../../containers/matches'
 import GroupStandingContainer from '../../containers/groupStanding'
+import TopScorersContainer from '../../containers/topScorers'
 
 export default function Clubs() {
     const { club, team_id } = useParams()
@@ -18,22 +19,26 @@ export default function Clubs() {
         <div>
             <h2 className="text-center">{club}</h2>
             <div className="flex justify-between">
-                <MatchesContainer teamId={team_id} matchStatus={lastGames} Title="Last Games" />
+                <div>
+                    <MatchesContainer teamId={team_id} matchStatus={lastGames} Title="Last Games" />
+                    <TopScorersContainer team_id={team_id} />
+                </div>
+
                 {loading ? (
                     <div>Loading...</div>
                 ) : <div>
-                        <div>
-                            {error && error.message}
-                            <p className="text-center my-2">Short code: {response.data.short_code}</p>
-                            <div className="flex justify-center">
-                                <p className="text-center self-center">Logo: </p>
-                                <img src={response.data.logo} alt={response.data.name} className="w-10 h-10 justify-center" />
-                            </div>
-                            <p className="text-center my-2">Country: {response.data.country.name}</p>
+                    <div>
+                        {error && error.message}
+                        <p className="text-center my-2">Short code: {response.data.short_code}</p>
+                        <div className="flex justify-center">
+                            <p className="text-center self-center">Logo: </p>
+                            <img src={response.data.logo} alt={response.data.name} className="w-10 h-10 justify-center" />
                         </div>
-                        <GroupStandingContainer teamId={team_id} />
-
+                        <p className="text-center my-2">Country: {response.data.country.name}</p>
                     </div>
+                    <GroupStandingContainer teamId={team_id} />
+
+                </div>
                 }
                 <MatchesContainer teamId={team_id} matchStatus={nextGames} Title="Next Games" />
             </div>

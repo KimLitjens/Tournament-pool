@@ -67,7 +67,6 @@ export default function GroupStandingContainer({ teamId }) {
                 </thead>
                 <tbody>
                     {groupWithClubInfo && groupWithClubInfo.map(team => <tr key={team.team_id}>
-
                         <td>
                             <p className="m-2 self-center">{team.position}: </p>
                         </td>

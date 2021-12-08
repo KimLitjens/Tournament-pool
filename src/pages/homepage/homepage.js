@@ -28,7 +28,7 @@ const HomePage = () => {
           <div className="middle justify-center" >
             <ScoreForm response={response} error={error} userId={userId} />
           </div>
-          {/* <TopScorersContainer /> */}
+          <TopScorersContainer />
         </div>
       </div>
       <FooterContainer />
