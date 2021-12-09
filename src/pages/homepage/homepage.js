@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Styles from './homepage.styles'
 import SidebarLeftContainer from '../../containers/sidebarLeft'
 import HeaderContainer from '../../containers/header'
 import FooterContainer from '../../containers/footer'
@@ -20,19 +21,17 @@ const HomePage = () => {
   const userId = auth?.currentUser?.uid
 
   return (
-    <div>
-      <div className="pag w-full">
-        <HeaderContainer />
-        <div className="mainPart md:flex flex-row justify-between w-full" >
-          <SidebarLeftContainer response={response} numGames={8} userId={userId} />
-          <div className="middle justify-center" >
-            <ScoreForm response={response} error={error} userId={userId} />
-          </div>
-          <TopScorersContainer />
-        </div>
-      </div>
+    <Styles.Page>
+      <HeaderContainer />
+      <Styles.MainPart >
+        <SidebarLeftContainer response={response} numGames={8} userId={userId} />
+        <Styles.MiddlePart>
+          <ScoreForm response={response} error={error} userId={userId} />
+        </Styles.MiddlePart>
+        <TopScorersContainer />
+      </Styles.MainPart>
       <FooterContainer />
-    </div>
+    </Styles.Page>
   );
 };
 
