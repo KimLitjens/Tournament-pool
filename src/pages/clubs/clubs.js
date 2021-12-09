@@ -1,12 +1,12 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import useAxios from '../../utils/hooks/useAxios'
-import ClubsStyle from './clubs.styles'
+import { Clubs } from '../../components'
 import MatchesContainer from '../../containers/matches'
 import GroupStandingContainer from '../../containers/groupStanding'
 import TopScorersContainer from '../../containers/topScorers'
 
-export default function Clubs() {
+export default function ClubsPage() {
     const { club, team_id } = useParams()
     const apiKey = process.env.REACT_APP_SPORTDATAAPI_API_KEY
     const nextGames = 0
@@ -18,33 +18,33 @@ export default function Clubs() {
 
     return (
         <div>
-            <ClubsStyle.Title>{club}</ClubsStyle.Title>
-            <ClubsStyle.MainDiv>
-                <ClubsStyle.LeftDiv>
+            <Clubs.Title>{club}</Clubs.Title>
+            <Clubs.MainDiv>
+                <Clubs.LeftDiv>
                     <MatchesContainer teamId={team_id} matchStatus={lastGames} Title="Last Games" />
                     <TopScorersContainer team_id={team_id} />
-                </ClubsStyle.LeftDiv>
+                </Clubs.LeftDiv>
 
                 {loading ? (
-                    <ClubsStyle.Loading>Loading...</ClubsStyle.Loading>
-                ) : <ClubsStyle.FinishedLoading>
-                    <ClubsStyle.MiddleDiv>
+                    <Clubs.Loading>Loading...</Clubs.Loading>
+                ) : <Clubs.FinishedLoading>
+                    <Clubs.MiddleDiv>
                         {error && error.message}
-                        <ClubsStyle.CenterText>Short code: {response.data.short_code}</ClubsStyle.CenterText>
-                        <ClubsStyle.LogoDiv>
-                            <ClubsStyle.LogoText>Logo: </ClubsStyle.LogoText>
-                            <ClubsStyle.LogoImg
+                        <Clubs.CenterText>Short code: {response.data.short_code}</Clubs.CenterText>
+                        <Clubs.LogoDiv>
+                            <Clubs.LogoText>Logo: </Clubs.LogoText>
+                            <Clubs.LogoImg
                                 src={response.data.logo}
                                 alt={response.data.name} />
-                        </ClubsStyle.LogoDiv>
-                        <ClubsStyle.CenterText>Country: {response.data.country.name}</ClubsStyle.CenterText>
-                    </ClubsStyle.MiddleDiv>
+                        </Clubs.LogoDiv>
+                        <Clubs.CenterText>Country: {response.data.country.name}</Clubs.CenterText>
+                    </Clubs.MiddleDiv>
                     <GroupStandingContainer teamId={team_id} />
 
-                </ClubsStyle.FinishedLoading>
+                </Clubs.FinishedLoading>
                 }
                 <MatchesContainer teamId={team_id} matchStatus={nextGames} Title="Next Games" />
-            </ClubsStyle.MainDiv>
+            </Clubs.MainDiv>
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Styles from './homepage.styles'
+import { Homepage } from '../../components'
 import SidebarLeftContainer from '../../containers/sidebarLeft'
 import HeaderContainer from '../../containers/header'
 import FooterContainer from '../../containers/footer'
@@ -21,17 +21,17 @@ const HomePage = () => {
   const userId = auth?.currentUser?.uid
 
   return (
-    <Styles.Page>
+    <Homepage.Page>
       <HeaderContainer />
-      <Styles.MainPart >
+      <Homepage.MainPart >
         <SidebarLeftContainer response={response} numGames={8} userId={userId} />
-        <Styles.MiddlePart>
+        <Homepage.MiddlePart>
           <ScoreForm response={response} error={error} userId={userId} />
-        </Styles.MiddlePart>
+        </Homepage.MiddlePart>
         <TopScorersContainer />
-      </Styles.MainPart>
+      </Homepage.MainPart>
       <FooterContainer />
-    </Styles.Page>
+    </Homepage.Page>
   );
 };
 
