@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom'
 import useAxios from '../../utils/hooks/useAxios'
 import MatchesContainer from '../../containers/matches'
 import { Player } from '../../components'
+import FooterContainer from '../../containers/footer'
+import HeaderContainer from '../../containers/header'
+
 
 
 export default function Players() {
@@ -17,14 +20,16 @@ export default function Players() {
     });
 
     return (
-        <Player>
-            <Player.Name>{player}</Player.Name>
-            <Player.Info>
-                <MatchesContainer teamId={team_id} matchStatus={lastGames} Title="Last Games" />
-                <Player.Middle id="middel">
-                    {loading ? (
-                        <Player.Loading>Loading...</Player.Loading>
-                    ) : <Player.Personal>
+        <div>
+            <HeaderContainer />
+            <Player>
+                <Player.Name>{player}</Player.Name>
+                <Player.Info>
+                    <MatchesContainer teamId={team_id} matchStatus={lastGames} Title="Last Games" />
+                    <Player.Middle id="middel">
+                        {loading ? (
+                            <Player.Loading>Loading...</Player.Loading>
+                        ) : <Player.Personal>
                             {error && error.message}
                             <p className="text-center">Age: {response.data.age}</p>
                             <p className="text-center">Birthday: {response.data.birthday}</p>
@@ -32,9 +37,12 @@ export default function Players() {
                             <p className="text-center">Weight: {response.data.weight}</p>
                             <p className="text-center">Country: {response.data.country.name}</p>
                         </Player.Personal>}
-                </Player.Middle>
-                <MatchesContainer teamId={team_id} matchStatus={nextGames} Title="Next Games" />
-            </Player.Info>
-        </Player >
+                    </Player.Middle>
+                    <MatchesContainer teamId={team_id} matchStatus={nextGames} Title="Next Games" />
+                </Player.Info>
+            </Player >
+            <FooterContainer />
+        </div>
+
     )
 }

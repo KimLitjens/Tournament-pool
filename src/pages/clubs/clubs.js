@@ -5,6 +5,8 @@ import { Clubs } from '../../components'
 import MatchesContainer from '../../containers/matches'
 import GroupStandingContainer from '../../containers/groupStanding'
 import TopScorersContainer from '../../containers/topScorers'
+import HeaderContainer from '../../containers/header'
+import FooterContainer from '../../containers/footer'
 
 export default function ClubsPage() {
     const { club, team_id } = useParams()
@@ -18,6 +20,7 @@ export default function ClubsPage() {
 
     return (
         <div>
+            <HeaderContainer />
             <Clubs.Title>{club}</Clubs.Title>
             <Clubs.MainDiv>
                 <Clubs.LeftDiv>
@@ -45,6 +48,8 @@ export default function ClubsPage() {
                 }
                 <MatchesContainer teamId={team_id} matchStatus={nextGames} Title="Next Games" />
             </Clubs.MainDiv>
+            <FooterContainer />
+
         </div>
     )
 }

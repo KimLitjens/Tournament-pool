@@ -2,6 +2,8 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import useAxios from '../../utils/hooks/useAxios'
 import { Link } from "react-router-dom";
+import HeaderContainer from '../../containers/header'
+import FooterContainer from '../../containers/footer'
 
 export default function Match() {
     const { match_id } = useParams();
@@ -19,6 +21,7 @@ export default function Match() {
     console.log(data)
     return (
         <div >
+            <HeaderContainer />
             <h1 className="text-center">
                 Match
             </h1>
@@ -101,6 +104,7 @@ export default function Match() {
 
                     </div>}
             </div>
+            <FooterContainer />
         </div>
     )
 }
