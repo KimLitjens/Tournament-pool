@@ -60,32 +60,38 @@ export default function SidebarLeftContainer({ response, error, userId, numGames
             {!gamesWithPrediction.length ? (
                 <div>Loading...</div>
             ) : (
-                    <SidebarLeft.Games>
-                        {error && error.message}
-                        {gamesWithPrediction.map(game =>
-                            <SidebarLeft.Game
-                                key={game.match_id}
+                <SidebarLeft.Games>
+                    {error && error.message}
+                    {gamesWithPrediction.map(game =>
+                        <SidebarLeft.Game
+                            key={game.match_id}
+                        >
+                            <Link to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
+                                className="flex "
+                                target="_blank"
                             >
-                                <Link to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
-                                    className="flex "
-                                    target="_blank"
-                                >
-                                    <SidebarLeft.Logo src={game.home_team.logo} alt="Home Team Logo" />
-                                    <SidebarLeft.ShortName>{game.home_team.short_code}</SidebarLeft.ShortName>
-                                </Link>
+                                <SidebarLeft.Logo src={game.home_team.logo} alt="Home Team Logo" />
+                                <SidebarLeft.ShortName>{game.home_team.short_code}</SidebarLeft.ShortName>
+                            </Link>
+                            <Link to={`/match/${game.match_id}`}
+                                className="flex "
+                                target="_blank"
+                            >
                                 <div className="ml-2">
                                     <SidebarLeft.Score>{game.stats.home_score} - {game.stats.away_score}</SidebarLeft.Score>
                                     {/* <p className="text-center" >{game.stats.home_prediction} - {game.stats.away_prediction}</p> */}
                                 </div>
-                                <Link to={`/clubs/${game.away_team.name}/${game.away_team.team_id}`}
-                                    target="_blank"
-                                    className="flex"
-                                >
-                                    <SidebarLeft.ShortName>{game.away_team.short_code}</SidebarLeft.ShortName>
-                                    <SidebarLeft.Logo src={game.away_team.logo} alt="Away Team Logo" />
-                                </Link>
-                            </SidebarLeft.Game>)}
-                    </SidebarLeft.Games>)
+                            </Link>
+
+                            <Link to={`/clubs/${game.away_team.name}/${game.away_team.team_id}`}
+                                target="_blank"
+                                className="flex"
+                            >
+                                <SidebarLeft.ShortName>{game.away_team.short_code}</SidebarLeft.ShortName>
+                                <SidebarLeft.Logo src={game.away_team.logo} alt="Away Team Logo" />
+                            </Link>
+                        </SidebarLeft.Game>)}
+                </SidebarLeft.Games>)
             }
         </SidebarLeft >
     )
