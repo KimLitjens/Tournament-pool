@@ -24,16 +24,16 @@ export default function Match() {
             </h1>
             <div className="grid justify-items-center">
                 {loading ? <p>Loading...</p>
-                    : <div className="grid justify-items-center  p-2 border-2">
+                    : <div className="grid p-2 border-2">
                         <div>
-                            <h3>Group: {data.group.group_name}</h3>
+                            <h3 className="text-center">Group: {data.group.group_name}</h3>
                         </div>
-                        <div className="flex">
+                        <div className="flex m-2">
                             <Link to={`/clubs/${data.home_team.name}/${data.home_team.team_id}`}
                                 className="flex "
                                 target="_blank"
                             >
-                                <h2 >{data.home_team.name}</h2>
+                                <h2 className="font-bold">{data.home_team.name}</h2>
                                 <img
                                     src={data.home_team.logo}
                                     alt="Home Team Logo"
@@ -50,24 +50,48 @@ export default function Match() {
                                     alt="Away Team Logo"
                                     className="w-8 h-8 mx-2"
                                 />
-                                <h2>{data.away_team.name}</h2>
+                                <h2 className="font-bold">{data.away_team.name}</h2>
                             </Link>
                         </div>
-                        <div className="flex">
-                            <div>
+                        <div className="flex justify-between">
+                            <div className="ml-2">
                                 {data.match_events.filter(event =>
                                     event.type === "goal" && event.team_id === homeTeamId).map(event =>
-                                        <p> {event.minute}' {event.player_name.split(',').reverse().join(' ')}: {event.result}</p>
+                                        <div>
+                                            <p className="font-bold">
+                                                {event.minute}'
+                                                {event.player_name.split(',').reverse().join(' ')}:{' '}
+                                                {event.result}
+                                            </p>
+                                            {event.related_player_name ?
+                                                <p>
+                                                    ({event.related_player_name.split(',').reverse().join(' ')} )
+                                                </p>
+                                                : null}
+                                        </div>
                                     )}
                             </div>
                             <div className="w-16">
 
                             </div>
 
-                            <div>
-                                {data.match_events.filter(event => event.type === "goal" && event.team_id === awayTeamId).map(event =>
-                                    <p> {event.minute}' {event.player_name.split(',').reverse().join(' ')}: {event.result}</p>
-                                )}
+                            <div className="mr-2">
+                                {data.match_events.filter(event =>
+                                    event.type === "goal" && event.team_id === awayTeamId).map(event =>
+                                        <div>
+                                            <p className="font-bold">
+                                                {event.minute}'
+                                                {event.player_name.split(',').reverse().join(' ')}:{' '}
+                                                {event.result}
+                                            </p>
+                                            {event.related_player_name ?
+                                                <p>
+                                                    ({event.related_player_name.split(',').reverse().join(' ')} )
+                                                </p>
+                                                : null}
+                                        </div>
+
+                                    )}
                             </div>
                         </div>
 
