@@ -41,7 +41,7 @@ export default function Match() {
                                 />
                             </Link>
                             <h2 className="mx-4">{data.stats.ft_score}</h2>
-                            <Link to={`/clubs/${data.home_team.name}/${data.home_team.team_id}`}
+                            <Link to={`/clubs/${data.away_team.name}/${data.away_team.team_id}`}
                                 className="flex "
                                 target="_blank"
                             >
@@ -56,7 +56,9 @@ export default function Match() {
                         <div className="flex justify-between">
                             <div className="ml-2">
                                 {data.match_events.filter(event =>
-                                    event.type === "goal" && event.team_id === homeTeamId).map(event =>
+                                    event.type === "goal" && event.team_id === homeTeamId).sort(function (a, b) {
+                                        return a.minute - b.minute
+                                    }).map(event =>
                                         <div>
                                             <p className="font-bold">
                                                 {event.minute}'
