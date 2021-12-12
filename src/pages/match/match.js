@@ -26,7 +26,7 @@ export default function Match() {
                 {loading ? <p>Loading...</p>
                     : <div className="grid p-2 border-2">
                         <div>
-                            <h3 className="text-center">Group: {data.group.group_name}</h3>
+                            <h3 className="text-center">Group: {data?.group?.group_name}</h3>
                         </div>
                         <div className="flex m-2">
                             <Link to={`/clubs/${data.home_team.name}/${data.home_team.team_id}`}

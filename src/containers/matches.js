@@ -37,7 +37,12 @@ export default function MatchesContainer({ teamId, matchStatus, Title }) {
                                 <SidebarLeft.Logo src={game.home_team.logo} alt="Home Team Logo" />
                                 <SidebarLeft.ShortName>{game.home_team.short_code}</SidebarLeft.ShortName>
                             </Link>
-                            <SidebarLeft.Score>{game.stats.ft_score || <p>-</p>}</SidebarLeft.Score>
+                            <Link to={`/match/${game.match_id}`}
+                                className="flex "
+                                target="_blank"
+                            >
+                                <SidebarLeft.Score>{game.stats.ft_score || <p>-</p>}</SidebarLeft.Score>
+                            </Link>
                             <Link to={`/clubs/${game.away_team.name}/${game.away_team.team_id}`}
                                 target="_blank"
                                 className="flex"
