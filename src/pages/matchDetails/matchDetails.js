@@ -4,12 +4,11 @@ import useAxios from '../../utils/hooks/useAxios'
 import { Link } from "react-router-dom";
 import HeaderContainer from '../../containers/header'
 import FooterContainer from '../../containers/footer'
+import EventsContainer from '../../containers/events'
 
 export default function Match() {
     const { match_id } = useParams();
-
     const apiKey = process.env.REACT_APP_SPORTDATAAPI_API_KEY
-
     const { response, error, loading } = useAxios({
         url: `https://app.sportdataapi.com/api/v1/soccer/matches/${match_id}?apikey=${apiKey}`,
     });
@@ -17,6 +16,7 @@ export default function Match() {
     const data = response?.data
     const homeTeamId = data?.home_team?.team_id
     const awayTeamId = data?.away_team?.team_id
+    const eventTypes = ["goal", "substitution", "yellowcard", "redcard"]
 
     console.log(data)
     return (
@@ -56,51 +56,12 @@ export default function Match() {
                                 <h2 className="font-bold">{data.away_team.name}</h2>
                             </Link>
                         </div>
-                        <div className="flex justify-between">
-                            <div className="ml-2">
-                                {data.match_events.filter(event =>
-                                    event.type === "goal" && event.team_id === homeTeamId).sort(function (a, b) {
-                                        return a.minute - b.minute
-                                    }).map(event =>
-                                        <div>
-                                            <p className="font-bold">
-                                                {event.minute}'
-                                                {event.player_name.split(',').reverse().join(' ')}:{' '}
-                                                {event.result}
-                                            </p>
-                                            {event.related_player_name ?
-                                                <p>
-                                                    ({event.related_player_name.split(',').reverse().join(' ')} )
-                                                </p>
-                                                : null}
-                                        </div>
-                                    )}
-                            </div>
-                            <div className="w-16">
-
-                            </div>
-
-                            <div className="mr-2">
-                                {data.match_events.filter(event =>
-                                    event.type === "goal" && event.team_id === awayTeamId).map(event =>
-                                        <div>
-                                            <p className="font-bold">
-                                                {event.minute}'
-                                                {event.player_name.split(',').reverse().join(' ')}:{' '}
-                                                {event.result}
-                                            </p>
-                                            {event.related_player_name ?
-                                                <p>
-                                                    ({event.related_player_name.split(',').reverse().join(' ')} )
-                                                </p>
-                                                : null}
-                                        </div>
-
-                                    )}
-                            </div>
-                        </div>
-
-
+                        {eventTypes.map(eventType => data.match_events.some(event => event.type === eventType) ? <EventsContainer
+                            data={data}
+                            type={eventType}
+                            homeTeamId={homeTeamId}
+                            awayTeamId={awayTeamId}
+                        /> : null)}
 
                     </div>}
             </div>

@@ -4,7 +4,7 @@ import SignUp from './pages/sign-up/sign-up';
 import SignIn from './pages/sign-in/sign-in';
 import Players from './pages/players/players';
 import Clubs from './pages/clubs/clubs';
-import Match from './pages/match/match';
+import MatchDetails from './pages/matchDetails/matchDetails';
 import Predictions from './pages/predictions/predictions';
 import HomePage from './pages/homepage/homepage';
 import * as ROUTES from './constants/routes'
@@ -28,7 +28,7 @@ function App() {
               <Players />
             </Route>
             <Route path={ROUTES.MATCH} >
-              <Match />
+              <MatchDetails />
             </Route>
             <Route path={ROUTES.CLUBS} >
               <Clubs />
