@@ -64,10 +64,28 @@ export default function PredictionsContainer() {
                             </tr>
                         </thead>
                         <tbody>
-                            {usersPredictions.map(match => match.match_start_iso == date ?
-                                <tr className="py-2">
+                            {usersPredictions.map(match => match.match_start_iso === date ?
+                                <tr className={`
+                                py-2 
+                                ${match.stats.home_prediction === match.stats.home_score &&
+                                    match.stats.away_prediction === match.stats.away_score &&
+                                    "bg-green-500"
+
+                                    }
+                                    ${(match.stats.home_prediction - match.stats.away_prediction === match.stats.home_score - match.stats.away_score) &&
+                                    "bg-yellow-200"
+                                    }
+                                    ${((match.stats.home_prediction > match.stats.away_prediction &&
+                                        match.stats.home_score > match.stats.away_score) ||
+                                        (match.stats.home_prediction < match.stats.away_prediction &&
+                                            match.stats.home_score < match.stats.away_score)) &&
+                                    (match.stats.home_prediction - match.stats.away_prediction !== match.stats.home_score - match.stats.away_score) &&
+                                    "bg-yellow-500"
+                                    }
+                                
+                                    bg-red-500`}>
                                     <td className="flex ">
-                                        <Link to={`/clubs/${match.home_team.name}/${match.home_team.team_id}`}
+                                        <Link to={`/ clubs / ${match.home_team.name} / ${match.home_team.team_id}`}
                                             className="flex "
                                             target="_blank"
                                         >
@@ -95,3 +113,4 @@ export default function PredictionsContainer() {
         </>
     )
 }
+
