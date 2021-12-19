@@ -11,7 +11,8 @@ export default function ScoreFormContainer({ response, error, userId }) {
     const [savePredictionsMessage, setsavePredictionsMessage] = useState("")
 
     const getCurrentRound = async () => {
-        const currentRound = response.data.filter(game => game.round.is_current === 1)
+        const currentRound = response.data.filter(game => game.status_code === 0).slice(0, 8)
+        console.log(currentRound)
         setCurrentRound(currentRound)
     }
 
@@ -121,64 +122,64 @@ export default function ScoreFormContainer({ response, error, userId }) {
             {!myPredictions.length ? (
                 <ScoreForm.Loading>Loading...</ScoreForm.Loading>
             ) : (
-                    <ScoreForm.Form
-                        onSubmit={(e) => onSubmitHandler(e)}
-                        className="form">
-                        <ScoreForm.List>
-                            {myPredictions.map(game =>
-                                game.stats.prediction_made && game.stats.away_prediction ? null
-                                    : (<ScoreForm.ListItem key={game.match_id}>
-                                        <Link
-                                            to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
-                                            target="_blank"
-                                            className="flex"
-                                        >
-                                            <ScoreForm.Label htmlFor={game.home_team.name} >
-                                                {<ScoreForm.Logo
-                                                    src={game.home_team.logo}
-                                                    alt={game.home_team.name}
-                                                />}
-                                                <ScoreForm.ShortName >
-                                                    {game.home_team.short_code}
-                                                </ScoreForm.ShortName>
-                                            </ScoreForm.Label>
-                                        </Link>
-                                        <ScoreForm.Input
-                                            type="tel"
-                                            id={"home_prediction"}
-                                            name={game.match_id}
-                                            onChange={onChange}
-                                            maxLength="2"
-                                            pattern="[0-9]*"
-                                        />
-                                        <p>-</p>
-                                        <ScoreForm.Input
-                                            type="tel"
-                                            id={"away_prediction"}
-                                            name={game.match_id}
-                                            onChange={onChange}
-                                            maxLength="2"
-                                            pattern="[0-9]*"
-                                        />
-                                        <Link
-                                            to={`/clubs/${game.away_team.name}/${game.away_team.team_id}`}
-                                            target="_blank"
-                                            className="flex"
-                                        >
-                                            <ScoreForm.Label htmlFor={game.away_team.name}>
-                                                <ScoreForm.ShortName >
-                                                    {game.away_team.short_code}
-                                                </ScoreForm.ShortName>
-                                                {<ScoreForm.Logo
-                                                    src={game.away_team.logo}
-                                                    alt={game.away_team.name}
-                                                />}
-                                            </ScoreForm.Label>
-                                        </Link>
-                                    </ScoreForm.ListItem>))}
-                        </ScoreForm.List>
-                        <ScoreForm.Button type="submit">Submit</ScoreForm.Button>
-                    </ScoreForm.Form>)}
+                <ScoreForm.Form
+                    onSubmit={(e) => onSubmitHandler(e)}
+                    className="form">
+                    <ScoreForm.List>
+                        {myPredictions.map(game =>
+                            game.stats.prediction_made && game.stats.away_prediction ? null
+                                : (<ScoreForm.ListItem key={game.match_id}>
+                                    <Link
+                                        to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
+                                        target="_blank"
+                                        className="flex"
+                                    >
+                                        <ScoreForm.Label htmlFor={game.home_team.name} >
+                                            {<ScoreForm.Logo
+                                                src={game.home_team.logo}
+                                                alt={game.home_team.name}
+                                            />}
+                                            <ScoreForm.ShortName >
+                                                {game.home_team.short_code}
+                                            </ScoreForm.ShortName>
+                                        </ScoreForm.Label>
+                                    </Link>
+                                    <ScoreForm.Input
+                                        type="tel"
+                                        id={"home_prediction"}
+                                        name={game.match_id}
+                                        onChange={onChange}
+                                        maxLength="2"
+                                        pattern="[0-9]*"
+                                    />
+                                    <p>-</p>
+                                    <ScoreForm.Input
+                                        type="tel"
+                                        id={"away_prediction"}
+                                        name={game.match_id}
+                                        onChange={onChange}
+                                        maxLength="2"
+                                        pattern="[0-9]*"
+                                    />
+                                    <Link
+                                        to={`/clubs/${game.away_team.name}/${game.away_team.team_id}`}
+                                        target="_blank"
+                                        className="flex"
+                                    >
+                                        <ScoreForm.Label htmlFor={game.away_team.name}>
+                                            <ScoreForm.ShortName >
+                                                {game.away_team.short_code}
+                                            </ScoreForm.ShortName>
+                                            {<ScoreForm.Logo
+                                                src={game.away_team.logo}
+                                                alt={game.away_team.name}
+                                            />}
+                                        </ScoreForm.Label>
+                                    </Link>
+                                </ScoreForm.ListItem>))}
+                    </ScoreForm.List>
+                    <ScoreForm.Button type="submit">Submit</ScoreForm.Button>
+                </ScoreForm.Form>)}
             <section>
                 <h3 className="text-center text-white bg-green-500">{savePredictionsMessage}</h3>
                 <h2 className="text-center">Predictions</h2>
