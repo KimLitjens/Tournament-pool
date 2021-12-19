@@ -204,7 +204,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
                                 <p className="self-center">-</p>
                                 <p className="self-center">{game.stats.away_prediction}</p>
                                 <Link
-                                    to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
+                                    to={`/clubs/${game.away_team.name}/${game.away_team.team_id}`}
                                     target="_blank"
                                     className="flex"
                                 >
