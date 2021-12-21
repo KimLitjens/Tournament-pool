@@ -5,13 +5,17 @@ import { useAuth } from '../../utils/hooks/useAuth';
 import { AuthForm } from '../../components'
 import * as ROUTES from '../../constants/routes'
 
-const SignIn = () => {
+export default function SignIn() {
   const userInfo = useAuth();
   const [auth, setAuth] = useState({});
 
   useEffect(() => {
     setAuth(userInfo)
   }, [userInfo]);
+
+  useEffect(() => {
+    document.title = "Pool - Sign in";
+  }, []);
 
   if (auth.currentUser && Object.keys(auth.currentUser).length) {
     return <Redirect to="/" />
@@ -27,6 +31,3 @@ const SignIn = () => {
     </AuthForm.Page>
   );
 };
-
-export default SignIn
-

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import useAxios from '../../utils/hooks/useAxios'
 import MatchesContainer from '../../containers/matches'
@@ -19,6 +19,9 @@ export default function Players() {
         url: `https://app.sportdataapi.com/api/v1/soccer/players/${id}?apikey=${apiKey}`,
     });
 
+    useEffect(() => {
+        document.title = "Pool - Player";
+    }, []);
     return (
         <div>
             <HeaderContainer />

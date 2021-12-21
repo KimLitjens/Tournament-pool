@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import useAxios from '../../utils/hooks/useAxios'
 import { Link } from "react-router-dom";
@@ -19,6 +19,10 @@ export default function Match() {
     const eventTypes = ["goal", "substitution", "yellowcard", "redcard"]
 
     console.log(data)
+
+    useEffect(() => {
+        document.title = "Pool - Match";
+    }, []);
     return (
         <div >
             <HeaderContainer />

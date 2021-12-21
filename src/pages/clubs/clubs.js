@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import useAxios from '../../utils/hooks/useAxios'
 import { Clubs } from '../../components'
@@ -17,6 +17,10 @@ export default function ClubsPage() {
     const { response, error, loading } = useAxios({
         url: `https://app.sportdataapi.com/api/v1/soccer/teams/${team_id}?apikey=${apiKey}`,
     });
+
+    useEffect(() => {
+        document.title = "Pool - Club";
+    }, []);
 
     return (
         <div>

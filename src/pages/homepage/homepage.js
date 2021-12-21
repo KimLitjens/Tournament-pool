@@ -18,6 +18,10 @@ const HomePage = () => {
     setAuth(userInfo)
   }, [userInfo]);
 
+  useEffect(() => {
+    document.title = "Pool - Homepage";
+  }, []);
+
   const userId = auth?.currentUser?.uid
 
   return (

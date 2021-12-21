@@ -14,7 +14,7 @@ export default function TopScorersContainer({ team_id }) {
 
     const getTheRightPlayers = () => {
         const players = team_id ? response.data.filter(player => player.team.team_id === +team_id) : response.data
-        const topPlayers = players.slice(0, 20)
+        const topPlayers = players.slice(0, 10)
         setPlayers(topPlayers)
         console.log(topPlayers)
     }
