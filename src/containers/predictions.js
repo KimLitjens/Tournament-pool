@@ -29,6 +29,23 @@ export default function PredictionsContainer() {
         setMatchDates([...new Set(dates.reverse())])
     }
 
+    const pointsScored = (homeScore, awayScore, homePrediction, awayPrediction) => {
+        if (homePrediction === homeScore &&
+            awayPrediction === awayScore) {
+            return 4
+        } else if (homePrediction - awayPrediction === homeScore - awayScore) {
+            return 3
+        } else if (homePrediction > awayPrediction &&
+            homeScore > awayScore) {
+            return 2
+        } else if (homePrediction < awayPrediction &&
+            homeScore < awayScore) {
+            return 2
+        } else {
+            return 0
+        }
+    }
+
     useEffect(() => {
         setAuth(userInfo)
     }, [userInfo]);
@@ -60,7 +77,8 @@ export default function PredictionsContainer() {
                             <tr>
                                 <th >Match</th>
                                 <th className="px-2">Predicted <br /> Result</th>
-                                <th >Match <br />Result</th>
+                                <th >Match  <br />Result</th>
+                                <th className="px-2">Points  <br />Scored</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -104,6 +122,9 @@ export default function PredictionsContainer() {
                                     </td>
                                     <td>
                                         <p className=""> {match.stats.ft_score}</p>
+                                    </td>
+                                    <td>
+                                        {pointsScored(match.stats.home_score, match.stats.away_score, match.stats.home_prediction, match.stats.away_prediction)}
                                     </td>
                                 </tr> : null)}
                         </tbody>
