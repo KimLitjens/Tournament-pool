@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { ScoreForm } from '../components'
 import { Link } from "react-router-dom";
 import { db } from '../firebase';
-import { collection, doc, getDoc, getDocs, setDoc, updateDoc, } from "firebase/firestore"
+import { collection, doc, getDocs, setDoc, updateDoc, } from "firebase/firestore"
 
 export default function ScoreFormContainer({ response, error, userId }) {
     const [currentRound, setCurrentRound] = useState([])
@@ -25,22 +25,6 @@ export default function ScoreFormContainer({ response, error, userId }) {
         const predictedCurrentRound = predictedGames.filter(game => currentRound.some(id => game.match_id === id.match_id))
         setMyPredictions(predictedCurrentRound)
     };
-
-    const saveGamesInFS = () => {
-        currentRound.forEach(async function (match) {
-            const matchId = '' + match.match_id
-            const docRef = doc(db, "users", userId, "predictions", matchId);
-            const docSnap = await getDoc(docRef);
-
-            if (!docSnap.exists()) {
-                try {
-                    setDoc(docRef, match);
-                } catch (e) {
-                    console.error("Error adding document: ", e);
-                }
-            }
-        })
-    }
 
     const arePredictionsMade = () => {
         if (myPredictions.some(obj => obj.stats.away_prediction && obj.stats.home_prediction)) {
@@ -108,7 +92,6 @@ export default function ScoreFormContainer({ response, error, userId }) {
     }, [response])
 
     useEffect(() => {
-        currentRound && saveGamesInFS()
         currentRound.length && getMyPredictions()
     }, [currentRound])
 

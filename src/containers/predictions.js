@@ -25,26 +25,12 @@ export default function PredictionsContainer() {
 
     const getAllDates = () => {
         const dates = []
-        usersPredictions.map(match => new Date(match.match_start_iso).valueOf() < new Date().valueOf() ? dates.push(match.match_start_iso) : null)
+        usersPredictions.map(match => new Date(match.match_start_iso).valueOf() < new Date().valueOf() ?
+            dates.push(match.match_start_iso) :
+            null)
         setMatchDates([...new Set(dates.reverse())])
     }
 
-    const pointsScored = (homeScore, awayScore, homePrediction, awayPrediction) => {
-        if (homePrediction === homeScore &&
-            awayPrediction === awayScore) {
-            return 4
-        } else if (homePrediction - awayPrediction === homeScore - awayScore) {
-            return 3
-        } else if (homePrediction > awayPrediction &&
-            homeScore > awayScore) {
-            return 2
-        } else if (homePrediction < awayPrediction &&
-            homeScore < awayScore) {
-            return 2
-        } else {
-            return 0
-        }
-    }
 
     useEffect(() => {
         setAuth(userInfo)
@@ -124,7 +110,7 @@ export default function PredictionsContainer() {
                                         <p className=""> {match.stats.ft_score}</p>
                                     </td>
                                     <td>
-                                        {pointsScored(match.stats.home_score, match.stats.away_score, match.stats.home_prediction, match.stats.away_prediction)}
+                                        {match.stats.points}
                                     </td>
                                 </tr> : null)}
                         </tbody>
