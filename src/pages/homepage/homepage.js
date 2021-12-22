@@ -15,19 +15,10 @@ import { db } from '../../firebase';
 const HomePage = () => {
   const userInfo = useAuth();
   const [auth, setAuth] = useState({});
-
   const { response, error } = useAllMatches();
-
-  useEffect(() => {
-    setAuth(userInfo)
-  }, [userInfo]);
-
-  useEffect(() => {
-    document.title = "Pool - Homepage";
-  }, []);
-
   const userId = auth?.currentUser?.uid
 
+  //save new games from api in FS 
   const saveGamesInFS = () => {
     response.data.forEach(async function (match) {
       const matchId = '' + match.match_id
@@ -44,6 +35,7 @@ const HomePage = () => {
     })
   }
 
+  // calculate the points scored after match is finished
   const pointsScored = (homeScore, awayScore, homePrediction, awayPrediction) => {
     if (homePrediction === homeScore &&
       awayPrediction === awayScore) {
@@ -80,11 +72,19 @@ const HomePage = () => {
     });
   }
 
+
+  useEffect(() => {
+    setAuth(userInfo)
+  }, [userInfo]);
+
+  useEffect(() => {
+    document.title = "Pool - Homepage";
+  }, []);
+
   useEffect(() => {
     response && saveGamesInFS()
     response && calcPoints()
   }, [response])
-
   return (
     <Homepage.Page>
       <HeaderContainer />
