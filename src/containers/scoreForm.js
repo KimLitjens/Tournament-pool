@@ -3,6 +3,7 @@ import { ScoreForm } from '../components'
 import { Link } from "react-router-dom";
 import { db } from '../firebase';
 import { collection, doc, getDocs, setDoc, updateDoc, } from "firebase/firestore"
+import MatchDetailsContainer from '../containers/matchDetails'
 
 export default function ScoreFormContainer({ response, error, userId }) {
     const [currentRound, setCurrentRound] = useState([])
@@ -168,40 +169,14 @@ export default function ScoreFormContainer({ response, error, userId }) {
                 <h2 className="text-center">Predictions</h2>
                 {<ScoreForm.List>
                     {predictionsMade ? myPredictions.map(game =>
-                        game.stats.prediction_made && (
-                            <ScoreForm.ListItem key={game.match_id}>
-                                <Link
-                                    to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
-                                    target="_blank"
-                                    className="flex"
-                                >
-                                    {<ScoreForm.Logo
-                                        src={game.home_team.logo}
-                                        alt={game.home_team.name}
-                                    />}
-                                    <ScoreForm.ShortName>
-                                        {game.home_team.short_code}
-                                    </ScoreForm.ShortName>
-                                </Link>
-                                <p className="self-center">{game.stats.home_prediction}</p>
-                                <p className="self-center">-</p>
-                                <p className="self-center">{game.stats.away_prediction}</p>
-                                <Link
-                                    to={`/clubs/${game.away_team.name}/${game.away_team.team_id}`}
-                                    target="_blank"
-                                    className="flex"
-                                >
-                                    <ScoreForm.ShortName>
-                                        {game.away_team.short_code}
-                                    </ScoreForm.ShortName>
-                                    {<ScoreForm.Logo
-                                        src={game.away_team.logo}
-                                        alt={game.away_team.name}
-                                    />}
-                                </Link>
-                                <ScoreForm.DeleteButton onClick={() => deletePrediction(game.match_id)}>X</ScoreForm.DeleteButton>
-                            </ScoreForm.ListItem>)
-                    ) : <p className="text-center">No prediction made</p>}
+                        game.stats.prediction_made &&
+                        <MatchDetailsContainer
+                            game={game}
+                            prediction={true}
+                            ftScore={false}
+                        />
+                    )
+                        : <p className="text-center">No prediction made</p>}
                     <ScoreForm.Button onClick={savePredictions}>Save Predictions</ScoreForm.Button>
                 </ScoreForm.List>}
             </section>

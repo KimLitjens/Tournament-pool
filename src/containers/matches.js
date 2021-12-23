@@ -2,21 +2,28 @@ import React, { useState, useEffect } from 'react'
 import { SidebarLeft } from '../components'
 import { useAllMatches } from '../utils/hooks/allMatches'
 import { Link } from "react-router-dom";
+import MatchDetailsContainer from '../containers/matchDetails';
 
-export default function MatchesContainer({ teamId, matchStatus, Title }) {
+export default function MatchesContainer({ teamId = null, matchStatus, Title, numGames = 16 }) {
     const { response: matchesResponse, error: matchesError } = useAllMatches()
-
     const [matches, setMatches] = useState()
 
     const findPlayersMatches = () => {
+        console.log(matchStatus)
         const playersMatches = matchesResponse.data.filter(match => match.away_team.team_id == teamId || match.home_team.team_id == teamId)
         const matchesByStatus = playersMatches.filter(match => match.status_code == matchStatus)
-        console.log(teamId, matchStatus)
         setMatches(matchesByStatus)
     }
 
+    const getAllMatches = () => {
+        const playedGames = matchesResponse.data.filter(match => match.status === 'finished')
+        const lastXGames = playedGames.slice(-numGames).reverse()
+        setMatches(lastXGames)
+    }
+
     useEffect(() => {
-        matchesResponse && findPlayersMatches()
+        matchesResponse && teamId && findPlayersMatches()
+        matchesResponse && !teamId && getAllMatches()
     }, [matchesResponse])
 
 
@@ -29,28 +36,9 @@ export default function MatchesContainer({ teamId, matchStatus, Title }) {
                 : (
                     <SidebarLeft.Games>
                         {matchesError && matchesError.message}
-                        {matches.map(game => <SidebarLeft.Game key={game.match_id}>
-                            <Link to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
-                                className="flex"
-                                target="_blank"
-                            >
-                                <SidebarLeft.Logo src={game.home_team.logo} alt="Home Team Logo" />
-                                <SidebarLeft.ShortName>{game.home_team.short_code}</SidebarLeft.ShortName>
-                            </Link>
-                            <Link to={`/match/${game.match_id}`}
-                                className="flex "
-                                target="_blank"
-                            >
-                                <SidebarLeft.Score>{game.stats.ft_score || <p>-</p>}</SidebarLeft.Score>
-                            </Link>
-                            <Link to={`/clubs/${game.away_team.name}/${game.away_team.team_id}`}
-                                target="_blank"
-                                className="flex"
-                            >
-                                <SidebarLeft.ShortName>{game.away_team.short_code}</SidebarLeft.ShortName>
-                                <SidebarLeft.Logo src={game.away_team.logo} alt="Away Team Logo" />
-                            </Link>
-                        </SidebarLeft.Game>)}
+                        {matches.map(game =>
+                            <MatchDetailsContainer game={game} />
+                        )}
                     </SidebarLeft.Games>)
             }
         </SidebarLeft>

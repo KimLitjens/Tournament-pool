@@ -20,7 +20,8 @@ const HomePage = () => {
 
   //save new games from api in FS 
   const saveGamesInFS = () => {
-    response.data.forEach(async function (match) {
+    console.log("save games")
+    response.data.forEach(async (match) => {
       const matchId = '' + match.match_id
       const docRef = doc(db, "users", userId, "predictions", matchId);
       const docSnap = await getDoc(docRef);
@@ -67,6 +68,12 @@ const HomePage = () => {
         matchInfo.stats.away_prediction)
       if (matchInfo.stats.ft_score) {
         updateDoc(matchDocRef, {
+          "stats.away_score": matchInfo.stats.away_score,
+          "stats.ft_score": matchInfo.stats.ft_score,
+          "stats.home_score": matchInfo.stats.home_score,
+          "stats.ht_score": matchInfo.stats.ht_score,
+          "status": matchInfo.status,
+          "status_code": matchInfo.status_code,
           "stats.points": points
         });
         totalPoints += points;
