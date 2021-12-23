@@ -23,6 +23,7 @@ export default function Match() {
     useEffect(() => {
         document.title = "Pool - Match";
     }, []);
+
     return (
         <div >
             <HeaderContainer />
@@ -32,8 +33,10 @@ export default function Match() {
             <div className="grid justify-items-center">
                 {loading ? <p>Loading...</p>
                     : <div className="grid p-2 border-2">
-                        <div>
-                            <h3 className="text-center">Group: {data?.group?.group_name}</h3>
+                        <div className="text-center">
+                            <h3 >Group: {data?.group?.group_name}</h3>
+                            <h2 >{new Date(data.match_start).toLocaleDateString().replaceAll("/", "-")}</h2>
+                            <h3> {new Date(data.match_start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</h3>
                         </div>
                         <div className="flex m-2">
                             <Link to={`/clubs/${data.home_team.name}/${data.home_team.team_id}`}
@@ -60,7 +63,7 @@ export default function Match() {
                                 <h2 className="font-bold">{data.away_team.name}</h2>
                             </Link>
                         </div>
-                        {eventTypes.map(eventType => data.match_events.some(event => event.type === eventType) ? <EventsContainer
+                        {data.match_events && eventTypes.map(eventType => data.match_events.some(event => event.type === eventType) ? <EventsContainer
                             data={data}
                             type={eventType}
                             homeTeamId={homeTeamId}
