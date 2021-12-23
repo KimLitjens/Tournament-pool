@@ -55,6 +55,7 @@ const HomePage = () => {
 
   const calcPoints = async () => {
     const querySnapshot = await getDocs(collection(db, "users", userId, "predictions"));
+    let totalPoints = 0
     querySnapshot.forEach((match) => {
       const matchInfo = match.data()
       const matchId = '' + matchInfo.match_id
@@ -67,8 +68,14 @@ const HomePage = () => {
       if (matchInfo.stats.ft_score) {
         updateDoc(matchDocRef, {
           "stats.points": points
-        })
+        });
+        totalPoints += points;
+
       }
+    });
+    const matchDocRef = doc(db, "users", userId)
+    updateDoc(matchDocRef, {
+      "pointsScored": totalPoints
     });
   }
 

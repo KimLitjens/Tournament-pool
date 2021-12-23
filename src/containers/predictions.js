@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from '../firebase';
 import { useAuth } from '../utils/hooks/useAuth';
 
@@ -10,6 +10,7 @@ export default function PredictionsContainer() {
     const [usersPredictions, setUsersPredictions] = useState([])
     const [matchDates, setMatchDates] = useState([])
     const [auth, setAuth] = useState({});
+    const [totalPoints, settotalPoints] = useState()
 
     const userId = auth?.currentUser?.uid
 
@@ -31,6 +32,18 @@ export default function PredictionsContainer() {
         setMatchDates([...new Set(dates.reverse())])
     }
 
+    const getTotalPoints = async () => {
+        const docRef = doc(db, "users", userId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            settotalPoints(docSnap.data().pointsScored)
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+
+    }
 
     useEffect(() => {
         setAuth(userInfo)
@@ -39,6 +52,7 @@ export default function PredictionsContainer() {
     useEffect(() => {
         userId && getUsersPredictions()
         userId && getAllDates()
+        userId && getTotalPoints()
     }, [userId])
 
     useEffect(() => {
@@ -50,6 +64,7 @@ export default function PredictionsContainer() {
             <div>
                 <h1 className="text-center">Predictions page</h1>
             </div>
+            <div><h3>Total Points: {totalPoints}</h3></div>
             <div className="grid justify-items-center">
                 {usersPredictions.length ? matchDates.map(date => <div className="text-center my-4">
                     <h2>
