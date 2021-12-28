@@ -37,7 +37,10 @@ export default function MatchesContainer({ teamId = null, matchStatus, Title, nu
                     <SidebarLeft.Games>
                         {matchesError && matchesError.message}
                         {matches.map(game =>
-                            <MatchDetailsContainer game={game} />
+                            <MatchDetailsContainer
+                                game={game}
+                                matchStatus={matchStatus}
+                            />
                         )}
                     </SidebarLeft.Games>)
             }

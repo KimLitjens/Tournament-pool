@@ -21,5 +21,5 @@ MatchDetails.ShortName = function ShortName({ children, ...restProps }) {
 }
 
 MatchDetails.Score = function Score({ children, ...restProps }) {
-    return <p {...restProps} className="ml-2 self-center">{children}</p>
+    return <p {...restProps} className="ml-2 self-center text-center">{children}</p>
 }

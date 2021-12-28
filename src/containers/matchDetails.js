@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { MatchDetails } from '../components'
 import { Link } from "react-router-dom";
 
 
-export default function MatchDetailsContainer({ game, prediction = false, ftScore = true }) {
+export default function MatchDetailsContainer({ game, prediction = false, ftScore = true, matchStatus }) {
     return (
         <MatchDetails.Game
             key={game.match_id}
@@ -19,13 +19,13 @@ export default function MatchDetailsContainer({ game, prediction = false, ftScor
                 className="flex "
                 target="_blank"
             >
-                {ftScore &&
-                    <div className="ml-2">
+                {matchStatus === 0 ? <p className="self-center">-</p> : ftScore &&
+                    <div className="ml-2 self-center">
                         <MatchDetails.Score>{game.stats.home_score} - {game.stats.away_score}</MatchDetails.Score>
                     </div>}
 
                 {prediction &&
-                    <div className="text-blue-500">
+                    <div className="text-blue-500 ml-2 self-center">
                         <MatchDetails.Score>{game.stats.home_prediction} - {game.stats.away_prediction}</MatchDetails.Score>
                     </div>}
             </Link>
