@@ -9,7 +9,7 @@ MatchDetails.Games = function Games({ children, ...restProps }) {
 }
 
 MatchDetails.Game = function Game({ children, ...restProps }) {
-    return <div {...restProps} className="flex justify-center mt-1">{children}</div>
+    return <div {...restProps} className=" grid justify-items-center mt-1">{children}</div>
 }
 
 MatchDetails.Logo = function Logo({ children, ...restProps }) {
