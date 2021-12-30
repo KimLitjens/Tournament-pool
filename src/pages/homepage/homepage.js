@@ -20,7 +20,7 @@ const HomePage = () => {
 
   //save new games from api in FS 
   const saveGamesInFS = () => {
-    console.log("save games")
+    console.log("User ID", userId)
     response.data.forEach(async (match) => {
       const matchId = '' + match.match_id
       const docRef = doc(db, "users", userId, "predictions", matchId);
@@ -96,8 +96,9 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    response && saveGamesInFS()
-    response && calcPoints()
+    console.log(response)
+    userId && response && saveGamesInFS()
+    userId && response && calcPoints()
   }, [response])
   return (
     <Homepage.Page>
