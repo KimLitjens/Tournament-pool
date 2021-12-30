@@ -3,19 +3,26 @@ import { MatchDetails } from '../components'
 import { Link } from "react-router-dom";
 
 
-export default function MatchDetailsContainer({ game, prediction = false, ftScore = true, matchStatus }) {
+export default function MatchDetailsContainer({
+    game,
+    prediction = false,
+    ftScore = true,
+    matchStatus,
+    showDate = false
+}) {
     return (
         <MatchDetails.Game
             key={game.match_id}
         >
-            <div className="text-center">
+            {showDate && <div className="text-center">
                 <p className="font-bold text-center">
                     {new Date(game.match_start).toLocaleDateString().replaceAll("/", "-")}
                 </p>
                 <p >
                     {new Date(game.match_start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </p>
-            </div>
+            </div>}
+
             <div className="flex">
                 <Link to={`/clubs/${game.home_team.name}/${game.home_team.team_id}`}
                     className="flex "

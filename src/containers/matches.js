@@ -4,7 +4,13 @@ import { useAllMatches } from '../utils/hooks/allMatches'
 import { Link } from "react-router-dom";
 import MatchDetailsContainer from '../containers/matchDetails';
 
-export default function MatchesContainer({ teamId = null, matchStatus, Title, numGames = 16 }) {
+export default function MatchesContainer({
+    teamId = null,
+    matchStatus,
+    Title,
+    numGames = 16,
+    showDate
+}) {
     const { response: matchesResponse, error: matchesError } = useAllMatches()
     const [matches, setMatches] = useState()
 
@@ -40,6 +46,7 @@ export default function MatchesContainer({ teamId = null, matchStatus, Title, nu
                             <MatchDetailsContainer
                                 game={game}
                                 matchStatus={matchStatus}
+                                showDate={showDate}
                             />
                         )}
                     </SidebarLeft.Games>)

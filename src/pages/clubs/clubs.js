@@ -50,7 +50,7 @@ export default function ClubsPage() {
 
                 </Clubs.FinishedLoading>
                 }
-                <MatchesContainer teamId={team_id} matchStatus={nextGames} Title="Next Games" />
+                <MatchesContainer teamId={team_id} matchStatus={nextGames} Title="Next Games" showDate={true} />
             </Clubs.MainDiv>
             <FooterContainer />
 
