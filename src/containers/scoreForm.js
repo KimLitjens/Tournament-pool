@@ -174,6 +174,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
                             game={game}
                             prediction={true}
                             ftScore={false}
+                            deletePrediction={deletePrediction}
                         />
                     )
                         : <p className="text-center">No prediction made</p>}
