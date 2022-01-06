@@ -41,7 +41,7 @@ export default function Players() {
                             <p className="text-center">Country: {response.data.country.name}</p>
                         </Player.Personal>}
                     </Player.Middle>
-                    <MatchesContainer teamId={team_id} matchStatus={nextGames} Title="Next Games" />
+                    <MatchesContainer teamId={team_id} matchStatus={nextGames} Title="Next Games" showDate={true} />
                 </Player.Info>
             </Player >
             <FooterContainer />
