@@ -10,13 +10,11 @@ export default function TopScorersContainer({ team_id }) {
     const { response, error, loading } = useAxios({
         url: `https://app.sportdataapi.com/api/v1/soccer/topscorers?apikey=${apiKey}&season_id=1959`,
     });
-    console.log(team_id);
 
     const getTheRightPlayers = () => {
         const players = team_id ? response.data.filter(player => player.team.team_id === +team_id) : response.data
         const topPlayers = players.slice(0, 10)
         setPlayers(topPlayers)
-        console.log(topPlayers)
     }
 
     useEffect(() => {

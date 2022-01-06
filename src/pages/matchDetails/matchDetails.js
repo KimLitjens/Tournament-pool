@@ -18,8 +18,6 @@ export default function Match() {
     const awayTeamId = data?.away_team?.team_id
     const eventTypes = ["goal", "substitution", "yellowcard", "redcard"]
 
-    console.log(data)
-
     useEffect(() => {
         document.title = "Pool - Match";
     }, []);

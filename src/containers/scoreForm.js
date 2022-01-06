@@ -13,7 +13,6 @@ export default function ScoreFormContainer({ response, error, userId }) {
 
     const getCurrentRound = async () => {
         const currentRound = response.data.filter(game => game.status_code === 0).slice(0, 8)
-        console.log(currentRound)
         setCurrentRound(currentRound)
     }
 
@@ -171,6 +170,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
                     {predictionsMade ? myPredictions.map(game =>
                         game.stats.prediction_made &&
                         <MatchDetailsContainer
+                            key={game.match_id}
                             game={game}
                             prediction={true}
                             ftScore={false}

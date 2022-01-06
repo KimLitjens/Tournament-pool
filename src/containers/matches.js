@@ -15,7 +15,6 @@ export default function MatchesContainer({
     const [matches, setMatches] = useState()
 
     const findPlayersMatches = () => {
-        console.log(matchStatus)
         const playersMatches = matchesResponse.data.filter(match => match.away_team.team_id == teamId || match.home_team.team_id == teamId)
         const matchesByStatus = playersMatches.filter(match => match.status_code == matchStatus)
         setMatches(matchesByStatus)
@@ -44,6 +43,7 @@ export default function MatchesContainer({
                         {matchesError && matchesError.message}
                         {matches.map(game =>
                             <MatchDetailsContainer
+                                key={game.match_id}
                                 game={game}
                                 matchStatus={matchStatus}
                                 showDate={showDate}

@@ -13,7 +13,6 @@ export default function MatchDetailsContainer({
 }) {
     return (
         <MatchDetails.Game
-            key={game.match_id}
         >
             {showDate && <div className="text-center">
                 <p className="font-bold text-center">
