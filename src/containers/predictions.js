@@ -21,7 +21,6 @@ export default function PredictionsContainer() {
             usersInfo.push(doc.data())
         })
         setUsersPredictions(usersInfo.sort((firstItem, secondItem) => firstItem.match_id - secondItem.match_id));
-        console.log(usersInfo)
     }
 
     const getAllDates = () => {
@@ -42,7 +41,25 @@ export default function PredictionsContainer() {
             // doc.data() will be undefined in this case
             console.log("No such document!");
         }
+    }
 
+    const getPointsScoredColor = (points) => {
+        let color = ""
+        switch (points) {
+            case 4:
+                color = "bg-green-500";
+                break;
+            case 3:
+                color = "bg-yellow-200";
+                break;
+            case 2:
+                color = "bg-yellow-500";
+                break;
+            case 0:
+                color = "bg-red-500";
+                break;
+        }
+        return color
     }
 
     useEffect(() => {
@@ -66,7 +83,7 @@ export default function PredictionsContainer() {
             </div>
             <div><h3>Total Points: {totalPoints}</h3></div>
             <div className="grid justify-items-center">
-                {usersPredictions.length ? matchDates.map(date => <div className="text-center my-4">
+                {usersPredictions.length ? matchDates.map(date => <div key={date} className="text-center my-4">
                     <h2>
                         {new Date(date).toLocaleDateString().replaceAll("/", "-")}
                     </h2>
@@ -84,25 +101,11 @@ export default function PredictionsContainer() {
                         </thead>
                         <tbody>
                             {usersPredictions.map(match => match.match_start_iso === date ?
-                                <tr className={`
-                                py-2 
-                                ${match.stats.home_prediction === match.stats.home_score &&
-                                    match.stats.away_prediction === match.stats.away_score &&
-                                    "bg-green-500"
-
-                                    }
-                                    ${(match.stats.home_prediction - match.stats.away_prediction === match.stats.home_score - match.stats.away_score) &&
-                                    "bg-yellow-200"
-                                    }
-                                    ${((match.stats.home_prediction > match.stats.away_prediction &&
-                                        match.stats.home_score > match.stats.away_score) ||
-                                        (match.stats.home_prediction < match.stats.away_prediction &&
-                                            match.stats.home_score < match.stats.away_score)) &&
-                                    (match.stats.home_prediction - match.stats.away_prediction !== match.stats.home_score - match.stats.away_score) &&
-                                    "bg-yellow-500"
-                                    }
-                                
-                                    bg-red-500`}>
+                                <tr
+                                    key={match.match_id}
+                                    className={`
+                                py-2 ${getPointsScoredColor(match.stats.points)}
+`}>
                                     <td className="flex ">
                                         <Link to={`/ clubs / ${match.home_team.name} / ${match.home_team.team_id}`}
                                             className="flex "
