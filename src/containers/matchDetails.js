@@ -54,7 +54,11 @@ export default function MatchDetailsContainer({
                     <MatchDetails.ShortName>{game.away_team.short_code}</MatchDetails.ShortName>
                     <MatchDetails.Logo src={game.away_team.logo} alt="Away Team Logo" />
                 </Link>
-                {prediction && <MatchDetails.DeleteButton onClick={() => deletePrediction(game.match_id)}>X</MatchDetails.DeleteButton>}
+                {prediction && <MatchDetails.DeleteButton
+                    onClick={() => deletePrediction(game.match_id)}
+                >
+                    X
+                </MatchDetails.DeleteButton>}
 
             </div>
         </MatchDetails.Game>

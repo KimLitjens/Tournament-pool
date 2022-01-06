@@ -23,3 +23,12 @@ MatchDetails.ShortName = function ShortName({ children, ...restProps }) {
 MatchDetails.Score = function Score({ children, ...restProps }) {
     return <p {...restProps} className="ml-2 self-center text-center">{children}</p>
 }
+
+MatchDetails.DeleteButton = function DeleteButton({ children, ...restProps }) {
+    return <button {...restProps} className="
+    flex justify-center py-1 px-1 ml-2
+    text-white font-bold text-sm 
+    cursor-pointer 
+    rounded-full bg-gradient-to-r from-red-800 to-red-500 border-transparent 
+    ">{children}</button>
+}
