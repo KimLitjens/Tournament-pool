@@ -35,9 +35,9 @@ export default function Players() {
                         ) : <Player.Personal>
                             {error && error.message}
                             <p className="text-center">Age: {response.data.age}</p>
-                            <p className="text-center">Birthday: {response.data.birthday}</p>
-                            <p className="text-center">Height: {response.data.height}</p>
-                            <p className="text-center">Weight: {response.data.weight}</p>
+                            <p className="text-center">Birthday: {response.data.birthday.split('-').reverse().join("-")} </p>
+                            <p className="text-center">Height: {response.data.height}cm</p>
+                            <p className="text-center">Weight: {response.data.weight}kg</p>
                             <p className="text-center">Country: {response.data.country.name}</p>
                         </Player.Personal>}
                     </Player.Middle>
