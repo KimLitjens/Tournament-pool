@@ -30,7 +30,7 @@ export default function Match() {
             </h1>
             <div className="grid justify-items-center">
                 {loading ? <p>Loading...</p>
-                    : <div className="grid p-2 border-2">
+                    : <div className="grid p-2 border rounded border-yellow-500">
                         <div className="text-center">
                             <h3 >Group: {data?.group?.group_name}</h3>
                             <h2 >{new Date(data.match_start).toLocaleDateString().replaceAll("/", "-")}</h2>

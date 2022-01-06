@@ -14,7 +14,7 @@ Player.Info = function Info({ children, ...restProps }) {
 }
 
 Player.Middle = function Middle({ children, ...restProps }) {
-    return <div {...restProps}>{children}</div>
+    return <div {...restProps} className="p-2 h-full border rounded border-yellow-500">{children}</div>
 }
 
 Player.Loading = function Loading({ children, ...restProps }) {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { SidebarLeft } from '../components'
 import { useAllMatches } from '../utils/hooks/allMatches'
-import { Link } from "react-router-dom";
 import MatchDetailsContainer from '../containers/matchDetails';
 
 export default function MatchesContainer({

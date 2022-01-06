@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function SidebarLeft({ children, ...restProps }) {
-    return <div {...restProps} className="hidden md:inline w-1/4">{children}</div>
+    return <div {...restProps} className="hidden md:inline w-1/4 h-full ml-2 py-2 border rounded border-yellow-500">{children}</div>
 }
 
 SidebarLeft.Title = function Title({ children, ...restProps }) {

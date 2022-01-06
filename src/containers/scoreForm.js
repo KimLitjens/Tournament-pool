@@ -163,7 +163,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
                     </ScoreForm.List>
                     <ScoreForm.Button type="submit">Submit</ScoreForm.Button>
                 </ScoreForm.Form>)}
-            <section>
+            <ScoreForm.Section>
                 <h3 className="text-center text-white bg-green-500">{savePredictionsMessage}</h3>
                 <h2 className="text-center">Predictions</h2>
                 {<ScoreForm.List>
@@ -180,7 +180,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
                         : <p className="text-center">No prediction made</p>}
                     <ScoreForm.Button onClick={savePredictions}>Save Predictions</ScoreForm.Button>
                 </ScoreForm.List>}
-            </section>
+            </ScoreForm.Section>
         </ScoreForm>
     )
 }

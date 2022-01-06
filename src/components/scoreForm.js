@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function ScoreForm({ children, restProps }) {
-    return <div {...restProps}>{children}</div>
+    return <div {...restProps} className="px-2 border rounded border-yellow-500">{children}</div>
 }
 
 ScoreForm.Title = function Title({ children, ...restProps }) {
@@ -13,7 +13,11 @@ ScoreForm.Loading = function Loading({ children, ...restProps }) {
 }
 
 ScoreForm.Form = function Form({ children, ...restProps }) {
-    return <form {...restProps} className="form">{children}</form>
+    return <form {...restProps} className="form ">{children}</form>
+}
+
+ScoreForm.Section = function Section({ children, ...restProps }) {
+    return <section {...restProps}>{children}</section>
 }
 
 ScoreForm.List = function List({ children, ...restProps }) {

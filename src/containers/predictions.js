@@ -83,7 +83,7 @@ export default function PredictionsContainer() {
             </div>
             <div><h3>Total Points: {totalPoints}</h3></div>
             <div className="grid justify-items-center">
-                {usersPredictions.length ? matchDates.map(date => <div key={date} className="text-center my-4">
+                {usersPredictions.length ? matchDates.map(date => <div key={date} className="my-4 p-2  text-center border rounded border-yellow-500">
                     <h2>
                         {new Date(date).toLocaleDateString().replaceAll("/", "-")}
                     </h2>
@@ -104,7 +104,7 @@ export default function PredictionsContainer() {
                                 <tr
                                     key={match.match_id}
                                     className={`
-                                py-2 ${getPointsScoredColor(match.stats.points)}
+                                py-2 
 `}>
                                     <td className="flex ">
                                         <Link to={`/ clubs / ${match.home_team.name} / ${match.home_team.team_id}`}
@@ -127,7 +127,7 @@ export default function PredictionsContainer() {
                                     <td>
                                         <p className=""> {match.stats.ft_score}</p>
                                     </td>
-                                    <td>
+                                    <td className={`${getPointsScoredColor(match.stats.points)}`}>
                                         {match.stats.points}
                                     </td>
                                 </tr> : null)}
