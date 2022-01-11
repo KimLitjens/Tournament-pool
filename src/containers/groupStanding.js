@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import useAxios from '../utils/hooks/useAxios'
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../firebase';
-import { Link } from "react-router-dom";
-
+import { GroupStanding } from '../components';
 
 export default function GroupStandingContainer({ teamId }) {
     const [currentGroup, setCurrentGroup] = useState([])
@@ -52,51 +51,51 @@ export default function GroupStandingContainer({ teamId }) {
     }, [standingsAllGroups])
     return (
         <>
-            <h1 className="text-center">GroupStanding</h1>
-            <table className="table-auto">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th></th>
-                        <th>TEAM</th>
-                        <th className="px-4">PTS</th>
-                        <th className="px-4">F</th>
-                        <th className="px-4">A</th>
-                        <th className="px-4">GD</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {groupWithClubInfo && groupWithClubInfo.map(team => <tr key={team.team_id}>
-                        <td>
-                            <p className="m-2 self-center">{team.position}: </p>
-                        </td>
-                        <td>
-                            <Link to={`/clubs/${team.team_info.name}/${team.team_info.team_id}`}
+            <GroupStanding.Title >GroupStanding</GroupStanding.Title>
+            <GroupStanding.Table >
+                <GroupStanding.Thead>
+                    <GroupStanding.Tr>
+                        <GroupStanding.Th>#</GroupStanding.Th>
+                        <GroupStanding.Th></GroupStanding.Th>
+                        <GroupStanding.Th>TEAM</GroupStanding.Th>
+                        <GroupStanding.ThAbbreviated>PTS</GroupStanding.ThAbbreviated>
+                        <GroupStanding.ThAbbreviated>F</GroupStanding.ThAbbreviated>
+                        <GroupStanding.ThAbbreviated>A</GroupStanding.ThAbbreviated>
+                        <GroupStanding.ThAbbreviated>GD</GroupStanding.ThAbbreviated>
+                    </GroupStanding.Tr>
+                </GroupStanding.Thead>
+                <GroupStanding.Tbody>
+                    {groupWithClubInfo && groupWithClubInfo.map(team => <GroupStanding.Tr key={team.team_id}>
+                        <GroupStanding.Td>
+                            <GroupStanding.TeamPosition>{team.position}: </GroupStanding.TeamPosition>
+                        </GroupStanding.Td>
+                        <GroupStanding.Td>
+                            <GroupStanding.Link to={`/clubs/${team.team_info.name}/${team.team_info.team_id}`}
                                 className="flex"
                                 target="_blank"
                             >
-                                <img src={team.team_info.logo} alt="" className="w-8 h-8 self-center" />
-                            </Link>
-                        </td>
-                        <td>
-                            <h2 className="w-52 text-center self-center">{team.team_info.name}</h2>
-                        </td>
-                        <td>
-                            <p className="self-center text-center">{team.points}</p>
-                        </td>
-                        <td>
-                            <p className="self-center text-center">{team.overall.goals_scored}</p>
-                        </td>
-                        <td>
-                            <p className="self-center text-center">{team.overall.goals_against}</p>
-                        </td>
-                        <td>
-                            <p className="self-center text-center">{team.overall.goals_diff}</p>
-                        </td>
-                    </tr>)}
-                </tbody>
+                                <GroupStanding.Image src={team.team_info.logo} alt="" />
+                            </GroupStanding.Link>
+                        </GroupStanding.Td>
+                        <GroupStanding.Td>
+                            <GroupStanding.SubTitle >{team.team_info.name}</GroupStanding.SubTitle>
+                        </GroupStanding.Td>
+                        <GroupStanding.Td>
+                            <GroupStanding.Text >{team.points}</GroupStanding.Text>
+                        </GroupStanding.Td>
+                        <GroupStanding.Td>
+                            <GroupStanding.Text >{team.overall.goals_scored}</GroupStanding.Text>
+                        </GroupStanding.Td>
+                        <GroupStanding.Td>
+                            <GroupStanding.Text >{team.overall.goals_against}</GroupStanding.Text>
+                        </GroupStanding.Td>
+                        <GroupStanding.Td>
+                            <GroupStanding.Text >{team.overall.goals_diff}</GroupStanding.Text>
+                        </GroupStanding.Td>
+                    </GroupStanding.Tr>)}
+                </GroupStanding.Tbody>
 
-            </table>
+            </GroupStanding.Table>
         </>
     )
 }

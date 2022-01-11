@@ -1,5 +1,4 @@
 import React from 'react'
-
 export default function Homepage({ children, restProps }) {
     return <div {...restProps} >{children}</div>
 }
