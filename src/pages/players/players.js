@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+
 import useAxios from '../../utils/hooks/useAxios'
-import MatchesContainer from '../../containers/matches'
 import { Player } from '../../components'
+
+import MatchesContainer from '../../containers/matches'
 import FooterContainer from '../../containers/footer'
 import HeaderContainer from '../../containers/header'
 
@@ -28,9 +30,11 @@ export default function Players() {
             <Player>
                 <Player.Name>{player}</Player.Name>
                 <Player.Info>
+                    {/* Last games */}
                     <MatchesContainer teamId={team_id} matchStatus={lastGames} Title="Last Games" />
                     <Player.Middle id="middel">
                         {loading ? (
+                            // Player Info
                             <Player.Loading>Loading...</Player.Loading>
                         ) : <Player.Personal>
                             {error && error.message}
@@ -41,6 +45,7 @@ export default function Players() {
                             <p className="text-center">Country: {response.data.country.name}</p>
                         </Player.Personal>}
                     </Player.Middle>
+                    {/* Next games  */}
                     <MatchesContainer teamId={team_id} matchStatus={nextGames} Title="Next Games" showDate={true} />
                 </Player.Info>
             </Player >

@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import useAxios from '../../utils/hooks/useAxios'
+
 import { Clubs } from '../../components'
+
 import MatchesContainer from '../../containers/matches'
 import GroupStandingContainer from '../../containers/groupStanding'
 import TopScorersContainer from '../../containers/topScorers'
 import HeaderContainer from '../../containers/header'
 import FooterContainer from '../../containers/footer'
+
+import useAxios from '../../utils/hooks/useAxios'
 
 export default function ClubsPage() {
     const { club, team_id } = useParams()
@@ -23,10 +26,11 @@ export default function ClubsPage() {
     }, []);
 
     return (
-        <div>
+        <>
             <HeaderContainer />
             <Clubs.Title>{club}</Clubs.Title>
             <Clubs.MainDiv>
+                {/* Show last games and Topscorers */}
                 <Clubs.LeftDiv>
                     <MatchesContainer teamId={team_id} matchStatus={lastGames} Title="Last Games" />
                     <TopScorersContainer team_id={team_id} />
@@ -35,6 +39,7 @@ export default function ClubsPage() {
                 {loading ? (
                     <Clubs.Loading>Loading...</Clubs.Loading>
                 ) : <Clubs.FinishedLoading>
+                    {/* Club info */}
                     <Clubs.MiddleDiv>
                         {error && error.message}
                         <Clubs.CenterText>Short code: {response.data.short_code}</Clubs.CenterText>
@@ -46,14 +51,16 @@ export default function ClubsPage() {
                         </Clubs.LogoDiv>
                         <Clubs.CenterText>Country: {response.data.country.name}</Clubs.CenterText>
                     </Clubs.MiddleDiv>
+                    {/* Group standings */}
                     <GroupStandingContainer teamId={team_id} />
 
                 </Clubs.FinishedLoading>
                 }
+                {/* Next Games */}
                 <MatchesContainer teamId={team_id} matchStatus={nextGames} Title="Next Games" showDate={true} />
             </Clubs.MainDiv>
             <FooterContainer />
 
-        </div>
+        </>
     )
 }

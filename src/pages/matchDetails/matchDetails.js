@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import useAxios from '../../utils/hooks/useAxios'
-import { Link } from "react-router-dom";
+import { useParams, Link } from 'react-router-dom'
+
 import HeaderContainer from '../../containers/header'
 import FooterContainer from '../../containers/footer'
 import EventsContainer from '../../containers/events'
+import useAxios from '../../utils/hooks/useAxios'
 
 export default function Match() {
     const { match_id } = useParams();
     const apiKey = process.env.REACT_APP_SPORTDATAAPI_API_KEY
+
     const { response, error, loading } = useAxios({
         url: `https://app.sportdataapi.com/api/v1/soccer/matches/${match_id}?apikey=${apiKey}`,
     });
@@ -31,11 +32,13 @@ export default function Match() {
             <div className="grid justify-items-center">
                 {loading ? <p>Loading...</p>
                     : <div className="grid p-2 border rounded border-yellow-500">
+                        {/* Match date and time */}
                         <div className="text-center">
                             <h3 >Group: {data?.group?.group_name}</h3>
                             <h2 >{new Date(data.match_start).toLocaleDateString().replaceAll("/", "-")}</h2>
                             <h3> {new Date(data.match_start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</h3>
                         </div>
+                        {/* Match teams and score */}
                         <div className="flex m-2">
                             <Link to={`/clubs/${data.home_team.name}/${data.home_team.team_id}`}
                                 className="flex "
@@ -61,6 +64,7 @@ export default function Match() {
                                 <h2 className="font-bold">{data.away_team.name}</h2>
                             </Link>
                         </div>
+                        {/* Match events */}
                         {data.match_events && eventTypes.map(eventType => data.match_events.some(event => event.type === eventType) ? <EventsContainer
                             data={data}
                             type={eventType}

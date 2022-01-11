@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router';
-import Form from '../../containers/auth-form';
-import { useAuth } from '../../utils/hooks/useAuth';
+
 import { AuthForm } from '../../components'
 import * as ROUTES from '../../constants/routes'
+import Form from '../../containers/auth-form';
+import { useAuth } from '../../utils/hooks/useAuth';
 
 export default function SignIn() {
   const userInfo = useAuth();

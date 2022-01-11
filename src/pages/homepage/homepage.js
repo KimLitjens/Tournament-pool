@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { setDoc, doc, getDoc, collection, getDocs, updateDoc } from "firebase/firestore"
+
 import { Homepage } from '../../components'
+
 import SidebarLeftContainer from '../../containers/sidebarLeft'
 import HeaderContainer from '../../containers/header'
 import FooterContainer from '../../containers/footer'
 import TopScorersContainer from '../../containers/topScorers'
 import ScoreForm from '../../containers/scoreForm'
+
+import { db } from '../../firebase';
 import { useAuth } from '../../utils/hooks/useAuth';
 import { useAllMatches } from '../../utils/hooks/allMatches';
-import { setDoc, doc, getDoc, collection, getDocs, updateDoc } from "firebase/firestore"
-import { db } from '../../firebase';
 
 
 
@@ -35,7 +38,7 @@ const HomePage = () => {
     })
   }
 
-  // calculate the points scored after match is finished
+  // calculate the points scored:
   const pointsScored = (homeScore, awayScore, homePrediction, awayPrediction) => {
     if (homePrediction === homeScore &&
       awayPrediction === awayScore) {
@@ -52,8 +55,8 @@ const HomePage = () => {
       return 0
     }
   }
-
-  const calcPoints = async () => {
+  // updates firestore after game is finished
+  const updateFSAfterGameFinished = async () => {
     const querySnapshot = await getDocs(collection(db, "users", userId, "predictions"));
     let totalPoints = 0
     querySnapshot.forEach((match) => {
@@ -96,7 +99,7 @@ const HomePage = () => {
 
   useEffect(() => {
     userId && response && saveGamesInFS()
-    userId && response && calcPoints()
+    userId && response && updateFSAfterGameFinished()
   }, [response])
   return (
     <Homepage.Page>

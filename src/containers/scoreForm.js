@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { ScoreForm } from '../components'
 import { Link } from "react-router-dom";
-import { db } from '../firebase';
+
 import { collection, doc, getDocs, setDoc, updateDoc, } from "firebase/firestore"
+
+import { db } from '../firebase';
+import { ScoreForm } from '../components'
 import MatchDetailsContainer from '../containers/matchDetails'
 
 export default function ScoreFormContainer({ response, error, userId }) {
@@ -16,7 +18,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
         setCurrentRound(currentRound)
     }
 
-    const getMyPredictions = async () => {
+    const getMyPredictionsFromFS = async () => {
         const querySnapshot = await getDocs(collection(db, "users", userId, "predictions"));
         const predictedGames = []
         querySnapshot.forEach((doc) => {
@@ -50,7 +52,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
         setPredictionsMade(arePredictionsMade())
     };
 
-    const savePredictions = async () => {
+    const savePredictionsAfterClick = async () => {
         setsavePredictionsMessage("")
         try {
             for (let k = 0; k < myPredictions.length; k++) {
@@ -92,7 +94,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
     }, [response])
 
     useEffect(() => {
-        currentRound.length && getMyPredictions()
+        currentRound.length && getMyPredictionsFromFS()
     }, [currentRound])
 
     useEffect(() => {
@@ -105,6 +107,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
             {!myPredictions.length ? (
                 <ScoreForm.Loading>Loading...</ScoreForm.Loading>
             ) : (
+                // Show not predicted matches:
                 <ScoreForm.Form
                     onSubmit={(e) => onSubmitHandler(e)}
                     className="form">
@@ -164,7 +167,9 @@ export default function ScoreFormContainer({ response, error, userId }) {
                     <ScoreForm.Button type="submit">Submit</ScoreForm.Button>
                 </ScoreForm.Form>)}
             <ScoreForm.Section>
+                {/* Code after submitting predictions */}
                 <h3 className="text-center text-white bg-green-500">{savePredictionsMessage}</h3>
+                {/* show predicted matches */}
                 <h2 className="text-center">Predictions</h2>
                 {<ScoreForm.List>
                     {predictionsMade ? myPredictions.map(game =>
@@ -178,7 +183,7 @@ export default function ScoreFormContainer({ response, error, userId }) {
                         />
                     )
                         : <p className="text-center">No prediction made</p>}
-                    <ScoreForm.Button onClick={savePredictions}>Save Predictions</ScoreForm.Button>
+                    <ScoreForm.Button onClick={savePredictionsAfterClick}>Save Predictions</ScoreForm.Button>
                 </ScoreForm.List>}
             </ScoreForm.Section>
         </ScoreForm>
