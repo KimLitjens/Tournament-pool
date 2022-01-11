@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import useInput from '../utils/hooks/useInput';
-import { firebaseApp, db } from '../firebase';
-import { collection, setDoc, doc } from "firebase/firestore"
-import { AuthForm } from '../components'
+
+import { setDoc, doc } from "firebase/firestore"
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
+
+import { AuthForm } from '../components'
+import { firebaseApp, db } from '../firebase';
+import useInput from '../utils/hooks/useInput';
 
 export default function Form({ type }) {
   const username = useInput('')
@@ -17,6 +18,7 @@ export default function Form({ type }) {
   const auth = getAuth()
 
   const formDetails = {
+    // Handle Sign Up
     signUp: {
       handler: async () => {
         await createUserWithEmailAndPassword(auth, email.value, password.value)
@@ -44,6 +46,7 @@ export default function Form({ type }) {
       },
       buttonName: 'Sign Up',
     },
+    // Handle Sign In 
     signIn: {
       handler: () => signInWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
@@ -73,21 +76,33 @@ export default function Form({ type }) {
         onSubmit={(e) => onSubmitHandler(e)}
         className="form"
       >
-        {type === "signUp" && <AuthForm.Input placeholder="userName" {...username} className="primaryInput" />}
-        {type === "signUp" && <AuthForm.Input placeholder="Full Name" {...fullName} className="primaryInput" />}
-        <AuthForm.Input placeholder="Email" {...email} className="primaryInput" />
-        <AuthForm.Input placeholder="Password" type="password" {...password} className="primaryInput" />
-        {errorMessage && <AuthForm.ErrorMessage className="errorMessage">{errorMessage}</AuthForm.ErrorMessage>}
+        {type === "signUp" && <AuthForm.Input
+          placeholder="userName" {...username}
+          className="primaryInput"
+        />}
+        {type === "signUp" && <AuthForm.Input
+          placeholder="Full Name" {...fullName}
+          className="primaryInput"
+        />}
+        <AuthForm.Input
+          placeholder="Email" {...email}
+          className="primaryInput"
+        />
+        <AuthForm.Input
+          placeholder="Password"
+          type="password" {...password}
+          className="primaryInput"
+        />
+        {errorMessage && <AuthForm.ErrorMessage
+          className="errorMessage">
+          {errorMessage}
+        </AuthForm.ErrorMessage>}
         <AuthForm.Submit type="submit">
           {formDetails[type].buttonName}
         </AuthForm.Submit>
       </AuthForm.Form>
     </AuthForm>
   )
-};
-
-Form.propTypes = {
-  type: PropTypes.string.isRequired,
 };
 
 

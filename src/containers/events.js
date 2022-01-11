@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Events } from '../components'
+
 export default function EventsContainer({ data, homeTeamId, awayTeamId, type }) {
     let title = ""
     switch (type) {
@@ -15,56 +17,58 @@ export default function EventsContainer({ data, homeTeamId, awayTeamId, type }) 
         case "redcard":
             title = "Red cards"
             break
+
     }
     return (
-        <div className="my-2">
-            <h3 className="text-center font-bold">{
+        <Events>
+            <Events.Title >{
                 title
-            }</h3>
-            <div className="flex justify-between">
-                <div className="ml-2">
+            }</Events.Title>
+            {/* Show event info */}
+            <Events.Info >
+                {/* Home team event */}
+                <Events.Event >
                     {data.match_events.filter(event =>
                         event.type === type && event.team_id === homeTeamId).sort(function (a, b) {
                             return a.minute - b.minute
                         }).map(event =>
-                            <div>
-                                <p className="font-bold">
+                            <Events.EventInfo>
+                                <Events.EventTitle >
                                     {event.minute}'
                                     {event.player_name.split(',').reverse().join(' ')}:{' '}
                                     {event.result}
-                                </p>
+                                </Events.EventTitle>
                                 {event.related_player_name ?
-                                    <p>
+                                    <Events.EventText>
                                         ({event.related_player_name.split(',').reverse().join(' ')} )
-                                    </p>
+                                    </Events.EventText>
                                     : null}
-                            </div>
+                            </Events.EventInfo>
                         )}
-                </div>
-                <div className="w-16">
+                </Events.Event>
 
-                </div>
-                <div className="mr-2">
+                {/* Away team event */}
+                <Events.EventRight >
                     {data.match_events.filter(event =>
                         event.type === type && event.team_id === awayTeamId).map(event =>
-                            <div>
-                                <p className="font-bold">
+                            <Events.EventInfo>
+                                <Events.EventTitle >
                                     {event.minute}'
                                     {event.player_name.split(',').reverse().join(' ')}:{' '}
                                     {event.result}
-                                </p>
+                                </Events.EventTitle>
                                 {event.related_player_name ?
-                                    <p>
+                                    <Events.EventText>
                                         ({event.related_player_name.split(',').reverse().join(' ')} )
-                                    </p>
+                                    </Events.EventText>
                                     : null}
-                            </div>
+                            </Events.EventInfo>
 
                         )}
-                </div>
+                </Events.EventRight>
 
-            </div>
-        </div>
+            </Events.Info>
+        </Events>
 
     )
 }
