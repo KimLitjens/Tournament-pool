@@ -5,6 +5,7 @@ import { getAuth, signOut } from "firebase/auth";
 const SignOutButton = () => {
   const auth = getAuth();
 
+  // Sign out function
   const signUserOut = async () => {
     signOut(auth).then(() => {
       // Sign-out successful.
